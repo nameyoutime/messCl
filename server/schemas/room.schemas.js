@@ -3,10 +3,10 @@ const { Schema } = require("mongoose");
 const UserSchema = new Schema({
   user: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   message: [
-    {text:String}
+    { message:String , user: { type: Schema.Types.ObjectId, ref: 'User' }, _id : false  }
 
   ],
-  isGroup:Boolean,
+  isGroup: Boolean,
   // Subject: [{ type: Schema.Types.ObjectId, ref: 'Subject' }],
 });
 

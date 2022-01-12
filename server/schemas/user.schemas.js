@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   uid: String,
   friends: [{
     room: { type: Schema.Types.ObjectId, ref: 'Room' },
-    friend: { type: Schema.Types.ObjectId, ref: 'User' }
+    friend: { type: Schema.Types.ObjectId, ref: 'User' }, _id : false 
   }],
   req: [
     { type: Schema.Types.ObjectId, ref: 'User' } 

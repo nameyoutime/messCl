@@ -49,9 +49,15 @@ router.delete('/deniedReq', async (req, res) => {
     res.send({ result: result });
 })
 router.get('/checkSend', async (req, res) => {
-    let { to,from } = req.query;
-    let count = await UserDB.findById(to).countDocuments({req:from});
+    let { to, from } = req.query;
+    let count = await UserDB.findById(to).countDocuments({ req: from });
     res.send({ count: count });
+})
+router.get('/chat', async (req, res) => {
+    let { skip, limit } = req.query;
+    console.log(skip, limit);
+    // let count = await UserDB.findById(to).countDocuments({req:from});
+    res.send({ count: 'count' });
 })
 router.get('/:id', async (req, res) => {
     let id = req.params.id;
@@ -69,6 +75,7 @@ router.get('/uid/:uid', async (req, res) => {
     let data = await UserDB.find({ uid: uid }).populate("req").populate("friends.friend");
     res.send({ data: data })
 })
+
 
 router.get('/checkUid/:uid', async (req, res) => {
     let uid = req.params.uid;

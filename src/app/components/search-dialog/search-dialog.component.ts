@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
+import { mergeMap, filter, catchError, take, toArray } from 'rxjs/operators'
 
 @Component({
   selector: 'app-search-dialog',
@@ -20,26 +21,33 @@ export class SearchDialogComponent implements OnInit {
   public userData: any = this.data.data;
   ngOnInit(): void {
   }
-  checkFriend(val:any){
-    console.log(val);
-    return 0;
-  }
-  async sendFriend(_id: string) {
+  sendFriend(_id: string,user:any) {
     let temp = {
       from: this._id,
       to: _id
     }
-    console.log(temp);
-    await this.authSer.sendFriendReq(temp).toPromise();
+    // console.log(temp);
+    this.authSer.checkSendReq(temp).pipe(
+      filter(data => data.count == 0),
+      mergeMap((data: any) => {
+        return this.authSer.sendFriendReq(temp);
+      }),
+      toArray(),
+    ).subscribe(data => {
+      if(data.length==0){
+        alert(`already send friend request to ${user.displayName}`);
+      }else if(data.length>0){
+        alert(`send friend request to ${user.displayName}`);
+      }
+    })
+    // await this.authSer.sendFriendReq(temp).toPromise();
   }
 
-  test(val:any){
-    console.log(val);
-    
-  }
   async updateMesssages() {
-    if (this.email.length > 1) {
-      let data = await this.authSer.searchUser(this.email).toPromise();
+    let keyword = this.email;
+    keyword = keyword.trim();
+    if (keyword.length > 1) {
+      let data = await this.authSer.searchUser(keyword).toPromise();
       this.result = data.result;
       // this.authSer.searchUser(this.email).subscribe((data:any) => {
       //   this.result = data.result;

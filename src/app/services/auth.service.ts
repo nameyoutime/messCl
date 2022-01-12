@@ -57,6 +57,9 @@ export class AuthService {
   getAllUser(): Observable<any> {
     return this.http.get(environment.endpoint + `user`);
   }
+  checkSendReq(body: any): Observable<any> {
+    return this.http.get(environment.endpoint + `user/checkSend?from=${body.from}&to=${body.to}`);
+  }
   addUser(data: any): Observable<any> {
     return this.http.post(environment.endpoint + 'user', { user: data });
   }

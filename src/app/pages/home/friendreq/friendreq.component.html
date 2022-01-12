@@ -1,12 +1,1 @@
-<div *ngIf="req.length==0">
-    <h1 style="color:red">u have no friends req :D</h1>
-</div>
-<div *ngIf="req.length>0">
-    <div *ngFor="let user of req">
-
-        <img src={{user.photoURL}} alt="a">
-        {{user.displayName}}
-        <button (click)="accept(user._id)">accept</button>
-        <button (click)="denied(user._id)">denie</button>
-    </div>
-</div>
+<button (click)="openDialog()">Open req({{this.req.length}})</button>

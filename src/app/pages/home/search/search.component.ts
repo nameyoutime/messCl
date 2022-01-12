@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { SearchDialogComponent } from 'src/app/components/search-dialog/search-dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -7,31 +9,22 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  @Input() _id:any;
-  email: string = '';
-  constructor(private authSer: AuthService) { }
-  result: any;
+  @Input() _id: any;
+  @Input() data: any;
+
+  constructor(public dialog: MatDialog) { }
   ngOnInit(): void {
   }
-
-  async updateMesssages() {
-    if (this.email.length > 1) {
-      let data = await this.authSer.searchUser(this.email).toPromise();
-      this.result = data.result;
-      // this.authSer.searchUser(this.email).subscribe((data:any) => {
-      //   this.result = data.result;
-      // });
-      this.email = '';
+  openDialog() {
+    let config = {
+      width: '250px',
+      data: { data:this.data,_id:this._id },
     }
-  }
+    const dialogRef = this.dialog.open(SearchDialogComponent,config);
 
-  async sendFriend(_id:string){
-    let temp = {
-      from:this._id,
-      to:_id
-    }
-    
-    await this.authSer.sendFriendReq(temp).toPromise();
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
 
   }
 

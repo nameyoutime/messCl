@@ -5,6 +5,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { FriendReqDialogComponent } from 'src/app/components/friend-req-dialog/friend-req-dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-friendreq',
@@ -16,47 +18,17 @@ export class FriendreqComponent implements OnInit {
   @Input() _id: any;
 
 
-  constructor(private authSer: AuthService) { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    // console.log(this.req);
-    // console.log(this._id_id);
   }
 
-  denied(_id: string) {
-    let temp = {
-      currId: this._id,
-      _id: _id
+  openDialog() {
+    let config = {
+      width: '250px',
+      data: { req: this.req, _id: this._id },
     }
-    this.authSer.deniedReq(temp).subscribe((data: any) => {
-      console.log(data);
-    })
-
+    const dialogRef = this.dialog.open(FriendReqDialogComponent, config);
   }
-
-  accept(_id: string) {
-    let temp = {
-      user: [
-        this._id, _id
-      ],
-      message: []
-    }
-
-    this.authSer.createRoom(temp).subscribe(data => {
-      let temp1 = {
-        from: this._id,
-        to: _id,
-        room: data.data._id
-      }
-  
-      this.authSer.acceptReq(temp1).subscribe((data: any) => {
-        console.log(data);
-        this.denied(_id);
-      })
-      
-    })
-
-  }
-
 
 }

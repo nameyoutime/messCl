@@ -1,9 +1,13 @@
 <div *ngIf="loadData">
     <h1>Current user:{{data.displayName}}</h1>
-    <app-search [_id]="data._id"></app-search>
+    <app-search [_id]="data._id" [data]="data"></app-search>
     <app-friendreq [req]="data.req"[_id]="data._id"></app-friendreq>
-    <app-friend-list [list]="data.friends"></app-friend-list>
-
+    <div style="display: flex;">
+        <app-friend-list (roomEvent)="joinRoom($event)" [list]="data.friends"></app-friend-list>
+        <app-chat-main [room]="room"></app-chat-main>
+        
+    </div>
+    
 </div>
 <div *ngIf="!loadData">
     Loading...

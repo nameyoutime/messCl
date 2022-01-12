@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-friend-list',
@@ -7,11 +7,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class FriendListComponent implements OnInit {
   @Input() list:any;
+  @Output() roomEvent = new EventEmitter<string>();
   constructor() { }
 
   ngOnInit(): void {
   }
   joinChat(room:string){
-    console.log(room);
+    this.roomEvent.emit(room)
   }
+
 }

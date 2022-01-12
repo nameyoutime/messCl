@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
   public uid: string = '';
   public data: any;
   public loadData: boolean = false;
+  public room: any = null;
   constructor(public authSer: AuthService, private afAuth: AngularFireAuth) {
     this.afAuth.authState.subscribe((user: any) => {
       if (user) {
@@ -24,6 +25,9 @@ export class HomeComponent implements OnInit {
         localStorage.removeItem('uid');
       }
     })
+  }
+  joinRoom(value: any) {
+    this.room = value;
   }
 
   ngOnInit(): void {

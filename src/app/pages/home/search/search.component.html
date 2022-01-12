@@ -1,12 +1,1 @@
-<input  type="text" 
-(keyup.enter)="updateMesssages()" 
-[(ngModel)]="email"> <button (click)="updateMesssages()">Search</button>
-
-
-<h1 *ngFor="let user of result">
-
-    <img src={{user.photoURL}} alt="a">
-    {{user.displayName}}
-    <button *ngIf="user._id!==_id" (click)="sendFriend(user._id)">Send friends</button>
-    <p *ngIf="user._id==_id">(YOU)</p>
-</h1>
+<button (click)="openDialog()">Open search</button>

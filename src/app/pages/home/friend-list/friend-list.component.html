@@ -1,0 +1,15 @@
+<div *ngIf="list.length==0">
+    <h1>u have no friends :D</h1>
+</div>
+<div *ngIf="list.length>0">
+    <div *ngFor="let item of list">
+        
+        <div (click)="joinChat(item.room)">
+            <img src={{item.friend.photoURL}} alt="a">
+            {{item.friend.displayName}}
+        </div>
+        
+
+    </div>
+
+</div>

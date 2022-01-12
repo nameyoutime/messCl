@@ -1,0 +1,10 @@
+<div *ngIf="loadData">
+    <h1>Current user:{{data.displayName}}</h1>
+    <app-search [_id]="data._id"></app-search>
+    <app-friendreq [req]="data.req"[_id]="data._id"></app-friendreq>
+    <app-friend-list [list]="data.friends"></app-friend-list>
+
+</div>
+<div *ngIf="!loadData">
+    Loading...
+</div>

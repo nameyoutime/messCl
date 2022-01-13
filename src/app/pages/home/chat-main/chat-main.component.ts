@@ -44,6 +44,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     } catch (err) { }
   }
   ngOnChanges(changes: any) {
+
     this.joinRoom(changes.room.currentValue);
   }
 
@@ -56,7 +57,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     let userData = await this.authSer.getUser(this.uid).toPromise();
     this.user = userData.data[0];
     if (value !== null && !this.addMore) {
-      console.log("join room:", value);
+      this.roomSer.join(value);
       this.roomSer.getRoom(value, this.count).subscribe((dataRoom: any) => {
         let arr = dataRoom.data;
         this.messages = [];

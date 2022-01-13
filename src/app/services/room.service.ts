@@ -17,10 +17,16 @@ export class RoomService {
   constructor(private http: HttpClient) { }
 
   setCurrentRoom(value: any) {
-    this.currentRoom = value;
-    this.currentRoomUpdated.emit(this.currentRoom);
+    if (this.currentRoom !== value) {
+      this.leave();
+      this.currentRoom = value;
+      this.currentRoomUpdated.emit(this.currentRoom);
+    }
   }
 
+  join(room: string) {
+    console.log("join room:", room);
+  }
   leave() {
     if (this.currentRoom !== null) {
       console.log("leave room:", this.currentRoom);

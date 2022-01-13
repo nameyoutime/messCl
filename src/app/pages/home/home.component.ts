@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from 'src/app/services/auth.service';
+import { RoomService } from 'src/app/services/room.service';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,7 @@ export class HomeComponent implements OnInit {
   public data: any;
   public loadData: boolean = false;
   public room: any = null;
-  constructor(public authSer: AuthService, private afAuth: AngularFireAuth) {
+  constructor(private shareSer:ShareService,private authSer: AuthService, private afAuth: AngularFireAuth, private roomSer: RoomService) {
     this.afAuth.authState.subscribe((user: any) => {
       if (user) {
         localStorage.setItem('uid', user.uid);
@@ -27,7 +29,13 @@ export class HomeComponent implements OnInit {
     })
   }
   joinRoom(value: any) {
-    this.room = value;
+    // this.room = value;
+    this.roomSer.setCurrentRoom(value);
+    // console.log(value);
+
+  }
+  doClick(){
+    this.shareSer.setMenu();
   }
 
   ngOnInit(): void {

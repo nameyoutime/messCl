@@ -25,56 +25,58 @@ router.post('/', async (req, res) => {
 })
 
 
-router.get('/chat', async (req, res) => {
+router.get('/chat',  (req, res) => {
     let { room, limit, count } = req.query;
     limit = parseInt(limit);
-    let tempLimit = limit;
     count = parseInt(count);
-    let dataCount = await RoomDB.aggregate([{ $match: { _id: ObjectId(room) } }, { $project: { count: { $size: "$message" } } }])
-    let temp = (dataCount[0].count) - (count * limit);
-    let tempCount = -temp;
-    if (temp < 0) {
-        limit = (dataCount[0].count) - limit;
-        temp = 0;
-    }
-    if (limit > tempLimit) {
-        limit = (dataCount[0].count) - (tempLimit * count) + tempLimit;
-    }
-    let flag;
-    if (limit <= 0 || tempCount > tempLimit) {
-        limit = 1;
-        flag = true;
-    }
-    option = [
-        temp, limit
-    ]
-    let data = await RoomDB.find({ _id: room }, { message: { $slice: option } });
-    if (flag) {
-        data[0].message = [];
-    }
-    res.send({ data: data })
+    let countNum = count || 0
+    let limitNum = limit || 10
+    skip = countNum * limitNum;
+    (async () => {
+        let data = await RoomDB.aggregate([
+            {
+                $match: {
+                    _id: ObjectId(room)
+                }
+            },
+            { $unwind: '$message' },
+            {
+                $sort: {
+                    'message.index': -1
+                }
+            }, { $project: { message: "$message" } },
+            { $skip: skip },
+            { $limit: limit },
+            { $lookup: { from: 'users', localField: 'message.user', foreignField: '_id', as: 'user' } }
+    
+        ]);
+        res.send({ data: data })
+    })();
 })
 
-router.get("/count", async (req, res) => {
-    let { room } = req.query;
-
-    res.send({ data: data });
-})
-router.get('/:id', async (req, res) => {
-    let id = req.params.id;
-    let data = await RoomDB.findById(id);
-    res.send({ data: data })
-})
+// router.get('/:id', async (req, res) => {
+//     let id = req.params.id;
+//     let data = await RoomDB.findById(id);
+//     res.send({ data: data })
+// })
 
 
 
-router.post('/chat/:room', async (req, res) => {
-    let room = req.params.room;
+router.put('/chat', (req, res) => {
     let { data } = req.body;
-    // console.log(room, data);
-    let result = await RoomDB.findByIdAndUpdate(room, { $push: { message: data } });
-    // let data = await UserDB.find({ uid: uid }).populate("req").populate("friends.friend");
-    res.send({ data: result })
+    (async () => {
+        
+        let dataCount = await RoomDB.aggregate([{ $match: { _id: ObjectId(data.room) } }, { $project: { count: { $size: "$message" } } }])
+        let temp = {
+            ...data,
+            index: parseInt(dataCount[0].count)
+        }
+        await RoomDB.findByIdAndUpdate(data.room, { $push: { message: temp } });
+        res.send({ data: temp.index })
+    })();
+
+
+
 })
 
 // router.put('/:id', async (req, res) => {

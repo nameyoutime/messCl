@@ -8,7 +8,8 @@ import { FriendreqComponent } from './friendreq/friendreq.component';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
-import { ChatMainComponent } from './chat-main/chat-main.component';
+import { NoneComponent } from './none/none.component';
+// import { ChatMainComponent } from './chat-main/chat-main.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ChatMainComponent } from './chat-main/chat-main.component';
     FriendListComponent,
     FriendreqComponent,
     SearchComponent,
-    ChatMainComponent
+    NoneComponent,
+    // ChatMainComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-friend-list',
@@ -6,13 +7,19 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./friend-list.component.scss']
 })
 export class FriendListComponent implements OnInit {
-  @Input() list:any;
+  @Input() list: any;
+  @Input() data: any;
+
   @Output() roomEvent = new EventEmitter<string>();
-  constructor() { }
+  public menu: boolean = true;
+  constructor(private shareSer: ShareService) { }
 
   ngOnInit(): void {
+    this.shareSer.menuUpdated.subscribe(val=>{
+      this.menu = val;
+    })
   }
-  joinChat(room:string){
+  joinChat(room: string) {
     this.roomEvent.emit(room)
   }
 

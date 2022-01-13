@@ -68,11 +68,11 @@
                 <button (click)="add()">asd</button>
             </div>
             <div *ngFor="let item of messages">
-                <div *ngIf="user._id==item.user[0]._id" class="messages messages--sent">
-                    <div class="message">{{item.message.message}}</div>
+                <div *ngIf="user._id==item.user._id" class="messages messages--sent">
+                    <div class="message">{{item.message}}</div>
                 </div>
-                <div *ngIf="user._id!==item.user[0]._id" class="messages messages--received">
-                    <div class="message">{{item.message.message}}</div>
+                <div *ngIf="user._id!==item.user._id" class="messages messages--received">
+                    <div class="message">{{item.message}}</div>
                 </div>
 
             </div>

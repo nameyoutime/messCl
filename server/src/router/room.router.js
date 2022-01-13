@@ -9,6 +9,9 @@ const router = app.Router();
 const roomSchema = require('../../schemas/room.schemas');
 const RoomDB = mongoose.model('Room', roomSchema);
 
+const messSchema = require('../../schemas/message.shemas');
+const MessDB = mongoose.model('Message', messSchema);
+
 // const teacherSchema = require('../../schemas/teacher.schemas');
 // const TeacherDB = mongoose.model('Teacher', teacherSchema);
 
@@ -22,60 +25,6 @@ router.post('/', async (req, res) => {
     let result = new RoomDB(room);
     await result.save();
     res.status(200).send({ data: result });
-})
-
-
-router.get('/chat', (req, res) => {
-    let { room, limit, count } = req.query;
-    limit = parseInt(limit);
-    count = parseInt(count);
-    let countNum = count || 0
-    let limitNum = limit || 10
-    skip = countNum * limitNum;
-    (async () => {
-        let data = await RoomDB.aggregate([
-            {
-                $match: {
-                    _id: mongoose.Types.ObjectId(room.toString())
-                }
-            },
-            { $unwind: '$message' },
-            {
-                $sort: {
-                    'message.index': -1
-                }
-            }, { $project: { message: "$message" } },
-            { $skip: skip },
-            { $limit: limit },
-            { $lookup: { from: 'users', localField: 'message.user', foreignField: '_id', as: 'user' } }
-
-        ]);
-        res.send({ data: data })
-    })();
-})
-
-// router.get('/:id', async (req, res) => {
-//     let id = req.params.id;
-//     let data = await RoomDB.findById(id);
-//     res.send({ data: data })
-// })
-
-
-
-router.put('/chat', async (req, res) => {
-    let { data } = req.body;
-    let dataCount = await RoomDB.aggregate([{ $match: { _id: mongoose.Types.ObjectId(data.room) }  }, { $project: { count: { $size: "$message" } } }])
-    let temp = {
-        ...data,
-        index: parseInt(dataCount[0].count)
-    }
-    console.log(temp);
-    await RoomDB.findByIdAndUpdate(data.room, { $push: { message: temp } });
-    res.send({ data: true })
-
-
-
-
 })
 
 // router.put('/:id', async (req, res) => {

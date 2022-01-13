@@ -12,7 +12,6 @@ const UserSchema = new Schema({
   req: [
     { type: Schema.Types.ObjectId, ref: 'User' } 
   ]
-  // Subject: [{ type: Schema.Types.ObjectId, ref: 'Subject' }],
 });
 
 module.exports = UserSchema;

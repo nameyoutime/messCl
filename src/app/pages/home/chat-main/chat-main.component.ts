@@ -28,11 +28,15 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
 
   ngOnInit(): void {
     this.joinRoom(this.roomSer.currentRoom);
+    this.authSer.changeUser.subscribe(data => {
+      this.roomSer.setCurrentRoom(null);
+      this.joinRoom(null);
+    })
   }
   ngAfterViewChecked(): void {
-    this.scrollToBottom();
-
-
+    if (this.count == 0) {
+      this.scrollToBottom();
+    }
   }
   scrollToBottom(): void {
     try {
@@ -40,9 +44,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     } catch (err) { }
   }
   ngOnChanges(changes: any) {
-
     this.joinRoom(changes.room.currentValue);
-
   }
 
   async joinRoom(value: any) {
@@ -55,13 +57,17 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     this.user = userData.data[0];
     if (value !== null && !this.addMore) {
       console.log("join room:", value);
-      let dataRoom: any = await this.roomSer.getRoom(value, this.count).toPromise();
-      let arr = dataRoom.data;
-      this.messages = [];
-      for (let i = 0; i < arr.length; i++) {
-        this.messages.push(arr[arr.length - i - 1]);
-      }
-      this.loading = true;
+      this.roomSer.getRoom(value, this.count).subscribe((dataRoom: any) => {
+        let arr = dataRoom.data;
+        this.messages = [];
+        for (let i = 0; i < arr.length; i++) {
+          this.messages.push(arr[arr.length - i - 1]);
+        }
+        this.loading = true;
+
+      })
+      // let dataRoom: any = await this.roomSer.getRoom(value, this.count).toPromise();
+
 
     }
   }
@@ -86,29 +92,13 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
       room: this.roomSer.currentRoom,
       message: this.text.trim(),
       user: this.user,
-      time: this.shareSer.getDate()
+      time: this.shareSer.getDate(),
+      index: this.messages.length
     }
+    this.messages.push(payload);
+    this.text = '';
     if (payload.message.length !== 0) {
-      // this.roomSer.sendMessage(payload).pipe(
-      //   mergeMap((data) => {
-      //     if (data) {
-      //       this.text = '';
-      //     }
-      //     return this.roomSer.getRoom(this.room, this.count);
-      //   })
-      // ).subscribe(data => {
-      //   let firstData = data.data[0];
-      //   this.messages.push(firstData);
-      // });
-      this.roomSer.sendMessage(payload).subscribe((data: any) => {
-        if (data.data) {
-          this.roomSer.getRoom(this.roomSer.currentRoom, this.count).subscribe((data: any) => {
-            let firstData = data.data[0];
-            this.messages.push(firstData);
-            this.text = '';
-          });
-        }
-      });
+      this.roomSer.sendMessage(payload).subscribe();
     }
 
   }

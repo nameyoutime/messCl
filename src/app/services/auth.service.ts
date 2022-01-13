@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import firebase from '@firebase/app-compat';
 import { Observable } from 'rxjs';
@@ -12,7 +12,8 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   public uid: any;
-  public currentUser: any;
+  public user:any;
+  public changeUser: EventEmitter<any> = new EventEmitter();
   constructor(private afAuth: AngularFireAuth, private http: HttpClient) {
     this.checkUser();
   }
@@ -27,14 +28,18 @@ export class AuthService {
     };
   }
 
+  setCurrentUser(value: any) {
+    this.user = value;
+    this.changeUser.emit(this.user);
+  }
   checkUser() {
     this.afAuth.authState.subscribe((user: any) => {
       if (user) {
         localStorage.setItem('uid', user.uid);
         this.uid = user.uid;
-        this.getUser(this.uid).subscribe((data: any) => {
-          this.currentUser = data.data[0];
-        })
+        // console.log(this.uid);
+        this.setCurrentUser(user.uid);
+        
 
       } else {
         localStorage.removeItem('uid');
@@ -93,6 +98,9 @@ export class AuthService {
       })
     ).subscribe(data => {
       console.log(data);
+      localStorage.setItem('uid', dataUser.user.uid);
+      this.uid = dataUser.user.uid;
+
     })
 
 

@@ -6,6 +6,8 @@ const server = express();
 // router
 const user = require('./router/user.router');
 const room = require('./router/room.router');
+const mess = require('./router/message.schemas');
+
 
 
 
@@ -15,6 +17,7 @@ server.use(bodyParser.json());
 
 server.use("/api/user", user);
 server.use("/api/room", room);
+server.use("/api/mess", mess);
 
 
 

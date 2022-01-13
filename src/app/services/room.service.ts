@@ -28,11 +28,11 @@ export class RoomService {
   }
 
   getRoom(room: string, count: number): Observable<any> {
-    return this.http.get(environment.endpoint + `room/chat?limit=${this.limit}&room=${room}&count=${count}`);
+    return this.http.get(environment.endpoint + `mess/chat?limit=${this.limit}&room=${room}&count=${count}`);
   }
 
   sendMessage(payload: any): Observable<any> {
-    return this.http.put(environment.endpoint + "room/chat", { data: payload });
+    return this.http.post(environment.endpoint + "mess/chat", { data: payload });
   }
 
 

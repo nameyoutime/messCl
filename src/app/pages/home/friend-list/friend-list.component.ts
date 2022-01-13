@@ -20,6 +20,8 @@ export class FriendListComponent implements OnInit {
     })
   }
   joinChat(room: string) {
+    // this.roo.leave();
+    // console.log("test");
     this.roomEvent.emit(room)
   }
 

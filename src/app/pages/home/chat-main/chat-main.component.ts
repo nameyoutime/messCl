@@ -46,13 +46,15 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   }
 
   async joinRoom(value: any) {
+    // console.log(this.roomSer.lastRoom);
+
     this.loading = false;
     this.addMore = false;
     this.count = 0;
     let userData = await this.authSer.getUser(this.uid).toPromise();
     this.user = userData.data[0];
     if (value !== null && !this.addMore) {
-      console.log("change room to:", value);
+      console.log("join room:", value);
       let dataRoom: any = await this.roomSer.getRoom(value, this.count).toPromise();
       let arr = dataRoom.data;
       this.messages = [];
@@ -81,23 +83,34 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
 
   async sendMessage() {
     let payload = {
-      room: this.room,
+      room: this.roomSer.currentRoom,
       message: this.text.trim(),
       user: this.user,
       time: this.shareSer.getDate()
     }
-    if(payload.message.length!==0){
-      this.roomSer.sendMessage(payload).pipe(
-        mergeMap(() => {
-          return this.roomSer.getRoom(this.room, this.count);
-        })
-      ).subscribe(data => {
-        let firstData = data.data[0];
-        this.messages.push(firstData);
-        this.text = '';
+    if (payload.message.length !== 0) {
+      // this.roomSer.sendMessage(payload).pipe(
+      //   mergeMap((data) => {
+      //     if (data) {
+      //       this.text = '';
+      //     }
+      //     return this.roomSer.getRoom(this.room, this.count);
+      //   })
+      // ).subscribe(data => {
+      //   let firstData = data.data[0];
+      //   this.messages.push(firstData);
+      // });
+      this.roomSer.sendMessage(payload).subscribe((data: any) => {
+        if (data.data) {
+          this.roomSer.getRoom(this.roomSer.currentRoom, this.count).subscribe((data: any) => {
+            let firstData = data.data[0];
+            this.messages.push(firstData);
+            this.text = '';
+          });
+        }
       });
     }
-  
+
   }
 
 }

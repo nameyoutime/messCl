@@ -8,32 +8,34 @@ import { environment } from 'src/environments/environment';
 })
 export class RoomService {
   public currentRoom: any = null;
-  private limit:number = 20;
+
+  private limit: number = 20;
   public currentRoomUpdated: EventEmitter<any> = new EventEmitter();
+
+
 
   constructor(private http: HttpClient) { }
 
   setCurrentRoom(value: any) {
-    
     this.currentRoom = value;
     this.currentRoomUpdated.emit(this.currentRoom);
-    // console.log(value)
   }
 
-  getCurrentRoom(){
-    this.currentRoomUpdated.subscribe(data=>{
-      console.log(data);
-    })
-  }
-  getRoom(room:string,count:number):Observable<any>{
-    return this.http.get(environment.endpoint+`room/chat?limit=${this.limit}&room=${room}&count=${count}`);
+  leave() {
+    if (this.currentRoom !== null) {
+      console.log("leave room:", this.currentRoom);
+    }
   }
 
-  sendMessage(payload:any):Observable<any>{
-    return this.http.put(environment.endpoint+"room/chat",{data:payload});
+  getRoom(room: string, count: number): Observable<any> {
+    return this.http.get(environment.endpoint + `room/chat?limit=${this.limit}&room=${room}&count=${count}`);
   }
 
-  
+  sendMessage(payload: any): Observable<any> {
+    return this.http.put(environment.endpoint + "room/chat", { data: payload });
+  }
+
+
 
 
 

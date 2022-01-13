@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   }
   joinRoom(value: any) {
     // this.room = value;
+    this.roomSer.leave();
     this.roomSer.setCurrentRoom(value);
     // console.log(value);
 

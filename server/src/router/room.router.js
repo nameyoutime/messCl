@@ -1,7 +1,7 @@
 const app = require('express');
 let mongoose = require('mongoose');
 const router = app.Router();
-const ObjectId = mongoose.Types.ObjectId;
+// const ObjectId = mongoose.Types.ObjectId;
 
 // const subjectSchema = require('../../schemas/subject.schemas');
 // const SubjectDB = mongoose.model('Subject', subjectSchema);
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 })
 
 
-router.get('/chat',  (req, res) => {
+router.get('/chat', (req, res) => {
     let { room, limit, count } = req.query;
     limit = parseInt(limit);
     count = parseInt(count);
@@ -36,7 +36,7 @@ router.get('/chat',  (req, res) => {
         let data = await RoomDB.aggregate([
             {
                 $match: {
-                    _id: ObjectId(room)
+                    _id: mongoose.Types.ObjectId(room.toString())
                 }
             },
             { $unwind: '$message' },
@@ -48,7 +48,7 @@ router.get('/chat',  (req, res) => {
             { $skip: skip },
             { $limit: limit },
             { $lookup: { from: 'users', localField: 'message.user', foreignField: '_id', as: 'user' } }
-    
+
         ]);
         res.send({ data: data })
     })();
@@ -62,18 +62,17 @@ router.get('/chat',  (req, res) => {
 
 
 
-router.put('/chat', (req, res) => {
+router.put('/chat', async (req, res) => {
     let { data } = req.body;
-    (async () => {
-        
-        let dataCount = await RoomDB.aggregate([{ $match: { _id: ObjectId(data.room) } }, { $project: { count: { $size: "$message" } } }])
-        let temp = {
-            ...data,
-            index: parseInt(dataCount[0].count)
-        }
-        await RoomDB.findByIdAndUpdate(data.room, { $push: { message: temp } });
-        res.send({ data: temp.index })
-    })();
+    let dataCount = await RoomDB.aggregate([{ $match: { _id: mongoose.Types.ObjectId(data.room) }  }, { $project: { count: { $size: "$message" } } }])
+    let temp = {
+        ...data,
+        index: parseInt(dataCount[0].count)
+    }
+    console.log(temp);
+    await RoomDB.findByIdAndUpdate(data.room, { $push: { message: temp } });
+    res.send({ data: true })
+
 
 
 

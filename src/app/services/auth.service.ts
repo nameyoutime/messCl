@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   public uid: any;
+  public currentUser: any;
   constructor(private afAuth: AngularFireAuth, private http: HttpClient) {
     this.checkUser();
   }
@@ -26,11 +27,15 @@ export class AuthService {
     };
   }
 
-  async checkUser() {
-    await this.afAuth.authState.subscribe((user: any) => {
+  checkUser() {
+    this.afAuth.authState.subscribe((user: any) => {
       if (user) {
         localStorage.setItem('uid', user.uid);
         this.uid = user.uid;
+        this.getUser(this.uid).subscribe((data: any) => {
+          this.currentUser = data.data[0];
+        })
+
       } else {
         localStorage.removeItem('uid');
       }

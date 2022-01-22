@@ -25,8 +25,11 @@
                         </div>
                     </div>
                     <div>
-                        <ng-template #elseSending>
-                            <app-side-chat [item]='item' (replyEvent)="replyClick($event)"></app-side-chat>
+                        <ng-template #elseSending >
+                            <div style="z-index: 1;">
+
+                                <app-side-chat [item]='item' (replyEvent)="replyClick($event)"></app-side-chat>
+                            </div>
                         </ng-template>
                         <div class="sending" *ngIf="item.status==false;else elseSending" style="visibility: initial;">
                             sending
@@ -62,7 +65,7 @@
                             {{{input:item.text,breakpoint:30}|linebreak}}
                         </span>
 
-                        <div>
+                        <div style="z-index: 1;">
                             <app-side-chat [item]='item' (replyEvent)="replyClick($event)"></app-side-chat>
                         </div>
                     </div>
@@ -98,17 +101,22 @@
                 </div>
             </div>
 
-            <div style="height:100%">
+            <div style="display: flex;height:100%">
 
                 <div class="text-bar__field">
                     <textarea type="text" [(ngModel)]="text" placeholder="Type your text here..."
                         (keyup.enter)="sendMessage()" style="width: 100%;text-align: center;"></textarea>
 
                 </div>
-                <div class="text-bar__thumb">
+                <div  style="width:fit-content;width:50px;">
+                    <div style="border: 0.1px solid black;height: 100%;">
+                        send
+                    </div>
+                </div>
+                <!-- <div class="text-bar__thumb">
                     <div class="thumb" (click)="sendMessage()"></div>
 
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

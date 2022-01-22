@@ -6,7 +6,7 @@
 </div>
 <div *ngIf="loading && firstLoad" style="border:1px solid black;width: 100%;height: 100%;">
 
-    <div class="screen">
+    <div class="screen" >
         <div class="conversation" #scrollMe style="height: 95%">
             <div class="add">
                 <button (click)="add()" style="cursor: pointer;">add more</button>
@@ -17,7 +17,7 @@
                     <!-- reply -->
                     <div  *ngIf="item.reply">
                         <div
-                            style="padding: 7px 13px;background-color: rgb(240, 240, 240);
+                            style="position: relative;top: 10px;padding: 7px 13px;background-color: rgb(240, 240, 240);
                             border-bottom-left-radius: 15px;
                             border-top-left-radius: 15px;
                             border-top-right-radius:15px ;white-space: pre-line;width: fit-content;">
@@ -31,7 +31,7 @@
                         <div class="sending" *ngIf="item.status==false;else elseSending" style="visibility: initial;">
                             sending
                         </div>
-                        <div>
+                        <div style="z-index: 1;">
                             <div *ngIf="isMoblie" class="message" style="white-space: pre-line">
                                 {{{input:item.text,breakpoint:20}|linebreak}}
                             </div>
@@ -46,7 +46,7 @@
                     <!-- reply -->
                     <div *ngIf="item.reply">
                         <div>
-                            <div  style="padding: 7px 13px;background-color: rgb(240, 240, 240);
+                            <div  style="position: relative;top: 10px;padding: 7px 13px;background-color: rgb(240, 240, 240);
                             border-bottom-right-radius: 15px;
                             border-top-left-radius: 15px;
                             border-top-right-radius:15px ;visibility: visible;white-space: pre-line;width: fit-content;">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div style="z-index: 1;">
                         <span *ngIf="isMoblie" class="message" style="white-space: pre-line">
                             {{{input:item.text,breakpoint:20}|linebreak}}
                         </span>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div *ngIf="isMoblie" style="position: fixed;
-            bottom: 6%;border: solid black;width: 100%;">
+            bottom: 6%;width: 100%;background-color: white;padding: 0px 5px;">
                     <div style="display: flex;justify-content: space-between;">
                         <div>
                             {{reply.text}}

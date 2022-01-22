@@ -13,7 +13,7 @@
 //     overflow: auto;
 // }
 
-// #chatBarInput {
+// #chatBartextarea {
 //     flex: 0 0 80%;
 // }
 
@@ -54,7 +54,7 @@
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 .conversation {
-    height: calc(100% - 50px);
+    // height: calc(100% - 10%);
     overflow: auto;
     padding: 20px;
     padding-bottom: 0;
@@ -111,8 +111,14 @@
     }
 }
 
+.button{
+    border-radius: 5px;
+    background-color: white;
+    border: 0.1px solid black;
+    cursor: pointer;
+}
 .text-bar {
-    height: 50px;
+    // height: 50px;
     border-top: 1px solid #ccc;
 
     &__field {
@@ -120,7 +126,7 @@
         width: calc(100% - 50px);
         height: 100%;
 
-        input {
+        textarea {
             width: 100%;
             height: 100%;
             padding: 0 20px;
@@ -185,4 +191,75 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url(https://icon-library.com/images/send-icon-png/send-icon-png-24.jpg);
+}
+
+.messages--received > div {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.messages--received > div {
+    app-side-chat {
+        visibility: hidden;
+        display: inline-block;
+        margin-bottom: 2px;
+        clear: both;
+        padding: 7px 13px;
+        font-size: 12px;
+        border-radius: 15px;
+        line-height: 1.4;
+    }
+}
+
+.messages--received:hover {
+    div > app-side-chat {
+        visibility: visible;
+    }
+}
+
+.messages--sent > div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.messages--sent > div {
+    .sending {
+        visibility: hidden;
+        display: inline-block;
+        margin-bottom: 2px;
+        clear: both;
+        padding: 7px 13px;
+        font-size: 12px;
+        border-radius: 15px;
+        line-height: 1.4;
+    }
+    app-side-chat {
+        visibility: hidden;
+        display: inline-block;
+        margin-bottom: 2px;
+        clear: both;
+        padding: 7px 13px;
+        font-size: 12px;
+        border-radius: 15px;
+        line-height: 1.4;
+    }
+}
+
+.messages--sent:hover {
+    div > app-side-chat {
+        visibility: visible;
+    }
+}
+
+.add {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    button{
+        text-align: center;
+        border-radius: 5px;
+        background-color: white;
+        border: 0.1px solid black;
+
+    }
 }

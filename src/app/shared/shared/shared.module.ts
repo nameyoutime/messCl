@@ -11,7 +11,8 @@ const importModule = [
   SharedRoutingModule,
   FormsModule,
   ReactiveFormsModule,
-  HttpClientModule
+  HttpClientModule,
+
 ]
 const materialModule = [
   MatDialogModule

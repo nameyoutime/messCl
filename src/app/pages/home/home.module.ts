@@ -9,6 +9,9 @@ import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
 import { NoneComponent } from './none/none.component';
+import { MenuComponent } from './menu/menu.component';
+
+
 // import { ChatMainComponent } from './chat-main/chat-main.component';
 
 
@@ -19,6 +22,9 @@ import { NoneComponent } from './none/none.component';
     FriendreqComponent,
     SearchComponent,
     NoneComponent,
+    MenuComponent,
+
+
     // ChatMainComponent
   ],
   imports: [
@@ -26,7 +32,7 @@ import { NoneComponent } from './none/none.component';
     HomeRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class HomeModule { }

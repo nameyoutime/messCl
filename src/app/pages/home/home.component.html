@@ -1,22 +1,93 @@
-<div *ngIf="loadData">
-    <div style="height: 10vh;">
-        
-        <button (click)="doClick()">Menu</button>
-        <app-search [_id]="data._id" [data]="data"></app-search>
-        <app-friendreq [req]="data.req" [_id]="data._id"></app-friendreq>
-    </div>
-
-    <div style="display: flex;height: 90vh;">
-        <div style="height: 100%;">
-
-            <app-friend-list (roomEvent)="joinRoom($event)" [list]="data.friends" [data]="data"></app-friend-list>
+<div *ngIf="loadData" style="height: 100vh;">
+    <div style="height: 100%;">
+        <div style="height: 2%">
+            <app-menu [isMoblie]="isMoblie"></app-menu>
+            <app-search [_id]="data._id" [data]="data"></app-search>
+            <app-friendreq [req]="data.req" [_id]="data._id"></app-friendreq>
         </div>
 
-        <div style="width: 100%;height: 100%;">
 
-            <router-outlet></router-outlet>
+        <div style="display: flex;height: 98%;overflow-x: scroll;">
+
+            <div *ngIf="!isMoblie" style="
+                height: 100%;
+                width: 25%;
+                overflow-y: scroll;
+                /* overflow-x: scroll; */
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                " [@widthGrow]="(shareSer.menu)?'open':'closed'">
+                <div>
+                    <h1 *ngIf="data.friends.length==0">u have no friends :D</h1>
+                    <div *ngFor="let item of data.friends">
+                        <div routerLink="chat" (click)="joinRoom(item.room)"
+                            style="flex-wrap: wrap;
+                            ;cursor: pointer;border-radius: 5px;margin-bottom: 5px;align-items: center;display: flex;border: 0.1px solid black;">
+                            <img style="border: 1px solid black;border-radius: 100%;height: 4rem;"
+                                src={{item.friend.photoURL}} alt="pop">
+                            <p style="margin-left: 2%;">
+
+                                {{item.friend.displayName}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="flex-wrap: wrap;
+                            ;cursor: pointer;">
+                        <img style="border: 0.1px solid black;border-radius: 100%;height: 4rem;" src={{data.photoURL}}
+                            alt="pop">
+                        <!-- <p style="margin-left: 2%;">
+
+                            {{data.displayName}}
+                        </p> -->
+                    </div>
+                </div>
+            </div>
+            <div [@widthGrowM]="(shareSer.menuMoblie)?'open':'closed'" style="
+            position: fixed;
+            left: auto;
+            top: 0;
+            left: 0; 
+            bottom: 0;
+            min-width: 20%;
+            z-index: 9999;background-color: white;
+                ">
+                <div style="height: 100%;justify-content: space-between; display: flex;flex-direction: column;">
+                    <div>
+                        <app-menu [isMoblie]="isMoblie"></app-menu>
+                        <div>
+                            <h1 *ngIf="data.friends.length==0">u have no friends :D</h1>
+                            <div *ngFor="let item of data.friends">
+                                <div routerLink="chat" (click)="joinRoom(item.room)"
+                                    style="justify-content: center;cursor: pointer;border-radius: 5px;margin-bottom: 5px;align-items: center;display: flex;border: 0.1px solid black;">
+                                    <img style="border: 1px solid black;border-radius: 100%;height: 4rem;"
+                                        src={{item.friend.photoURL}} alt="pop">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="justify-self: end;">
+                        <div style="justify-content: center;display: flex
+                            ;cursor: pointer;">
+                            <img style="border: 0.1px solid black;border-radius: 100%;height: 4rem;"
+                                src={{data.photoURL}} alt="pop">
+                            <!-- <p style="margin-left: 2%;">
+
+                            {{data.displayName}}
+                        </p> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div style="width: 100%;height: 100%;">
+                <router-outlet></router-outlet>
+            </div>
         </div>
-
     </div>
 
 </div>

@@ -6,27 +6,19 @@ import { Observable } from 'rxjs';
 import { mergeMap, filter, catchError } from 'rxjs/operators'
 
 import { environment } from 'src/environments/environment';
+import { userProfile } from '../models/user-profile.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public uid: any;
-  public user:any;
+  public uid: string = '';
+  public user = {} as userProfile;
   public changeUser: EventEmitter<any> = new EventEmitter();
   constructor(private afAuth: AngularFireAuth, private http: HttpClient) {
     this.checkUser();
   }
 
-  defaultUser() {
-    return {
-      _id: '',
-      email: '',
-      displayName: '',
-      photoURL: '',
-      uid: ''
-    };
-  }
 
   setCurrentUser(value: any) {
     this.user = value;
@@ -39,7 +31,10 @@ export class AuthService {
         this.uid = user.uid;
         // console.log(this.uid);
         this.setCurrentUser(user.uid);
-        
+        this.getUser(this.uid).subscribe((data: any) => {
+          this.user = data.data[0];
+        })
+
 
       } else {
         localStorage.removeItem('uid');

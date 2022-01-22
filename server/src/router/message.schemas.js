@@ -12,7 +12,7 @@ router.get('/chat', (req, res) => {
     let limitNum = limit || 10
     skip = countNum * limitNum;
     (async () => {
-        let data = await MessDB.find({ room: room }).sort({index:-1}).skip(skip).limit(limit).populate("user");
+        let data = await MessDB.find({ room: room }).sort({date:-1}).skip(skip).limit(limit).populate("user").populate('reply');
         // let data = await RoomDB.aggregate([
         //     {
         //         $match: {
@@ -44,8 +44,14 @@ router.get('/chat', (req, res) => {
 
 router.post('/chat', async (req, res) => {
     let { data } = req.body;
-    let result = new MessDB(data);
-    await result.save();
-    res.send({ data: true})
+    let payload = {
+        ...data,
+        date:Date.now()
+    }
+    let result = new MessDB(payload);
+    result.save();
+    result = await result.populate("user");
+    result = await result.populate('reply')
+    res.send({ data: result})
 })
 module.exports = router;

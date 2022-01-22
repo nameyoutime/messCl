@@ -1,19 +1,32 @@
-<div *ngIf="list.length==0 &&menu" style="width: 100%;">
-    <h1>u have no friends :D</h1>
-</div>
-<div style="height: 90%;width: 100%;overflow-y: scroll;" *ngIf="list.length>0 &&menu">
-    <div *ngFor="let item of list">
+<div style="display: flex;height: 100%;">
 
-        <div routerLink="chat" (click)="joinChat(item.room)" style="border-radius: 5px;margin-bottom: 5px;align-items: center;display: flex;border: 0.1px solid black;">
-            <img style="border: 1px solid black;border-radius: 100%;width: 30%;" src={{item.friend.photoURL}} alt="pop">
-            <p style="margin-left: 2%;">
+    <div style="
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    " *ngIf="list.length>0" [@widthGrow]="(menu)?'open':'closed'">
+        <div>
 
-                {{item.friend.displayName}}
-            </p>
+            <h1 *ngIf="list.length==0">u have no friends :D</h1>
+            <div *ngFor="let item of list">
+                <div routerLink="chat" (click)="joinChat(item.room)"
+                    style="cursor: pointer;border-radius: 5px;margin-bottom: 5px;align-items: center;display: flex;border: 0.1px solid black;">
+                    <img style="border: 1px solid black;border-radius: 100%;height: 4rem;" src={{item.friend.photoURL}}
+                        alt="pop">
+                    <p style="margin-left: 2%;">
+
+                        {{item.friend.displayName}}
+                    </p>
+                </div>
+
+            </div>
         </div>
 
+        <h1>Current user:{{data.displayName}}</h1>
+
     </div>
-</div>
-<div style=" height: 10%;" *ngIf="menu">
-    <h1>Current user:{{data.displayName}}</h1>
+
 </div>

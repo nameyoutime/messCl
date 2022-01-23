@@ -7,7 +7,8 @@ import { ChatMainComponent } from '../chat-main/chat-main.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LinebreakPipe } from 'src/app/pipes/linebreak.pipe';
 import { SideChatComponent } from '../side-chat/side-chat.component';
-
+import { NgxImageCompressService } from "ngx-image-compress";
+import { SharedModule } from "../../../shared/shared/shared.module";
 @NgModule({
   declarations: [
     ChatComponent,
@@ -19,7 +20,10 @@ import { SideChatComponent } from '../side-chat/side-chat.component';
     CommonModule,
     ChatRoutingModule,
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+    SharedModule
+  ],
+  providers: [NgxImageCompressService],
+
 })
 export class ChatModule { }

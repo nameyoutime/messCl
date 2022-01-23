@@ -48,10 +48,12 @@ router.post('/chat', async (req, res) => {
         ...data,
         date:Date.now()
     }
+    // console.log(payload);
     let result = new MessDB(payload);
+    // console.log(result);
     result.save();
     result = await result.populate("user");
-    result = await result.populate('reply')
+    result = await result.populate('reply');
     res.send({ data: result})
 })
 module.exports = router;

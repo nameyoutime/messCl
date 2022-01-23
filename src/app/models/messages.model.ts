@@ -7,6 +7,7 @@ export interface messages {
   user?:userProfile,
   text?:string,
   date?:number,
+  image?:string,
   status?:boolean,
   reply?:any
 }

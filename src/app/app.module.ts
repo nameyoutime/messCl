@@ -11,7 +11,8 @@ import { SearchDialogComponent } from './components/search-dialog/search-dialog.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FriendReqDialogComponent } from './components/friend-req-dialog/friend-req-dialog.component';
 import { AlreadyFriendPipe } from './pipes/already-friend.pipe';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImageDialogComponent } from './components/image-dialog/image-dialog.component'; 
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SearchDialogComponent,
     FriendReqDialogComponent,
     AlreadyFriendPipe,
+    ImageDialogComponent,
   ],
   imports: [
     BrowserAnimationsModule,

@@ -4,7 +4,9 @@ import { messages } from 'src/app/models/messages.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
 import { ShareService } from 'src/app/services/share.service';
-
+import { DataUrl, DOC_ORIENTATION, NgxImageCompressService, UploadResponse, } from 'ngx-image-compress';
+import { ImageDialogComponent } from 'src/app/components/image-dialog/image-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -27,15 +29,12 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   public isMoblie: boolean = false;
   public reply: any = {};
   public imgs: Array<any> = [];
+  private maxImgSizeValue: number = 60000;
   uid: any = localStorage.getItem("uid");
-  constructor(public roomSer: RoomService, public authSer: AuthService, public shareSer: ShareService) { }
+  constructor(private dialog: MatDialog, private imageCompress: NgxImageCompressService, public roomSer: RoomService, public authSer: AuthService, public shareSer: ShareService) { }
 
   ngOnInit(): void {
-    // this.innerWidth = window.innerWidth;
     this.isMoblie = this.checkIsMoblie();
-    // setTimeout(() => {
-    //   this.reply = {test:"test",test1:"test1"};
-    // }, 3000);
     this.joinRoom(this.roomSer.currentRoom);
     this.authSer.changeUser.subscribe(data => {
       this.roomSer.setCurrentRoom(null);
@@ -77,9 +76,16 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     return Object.keys(this.reply).length;
   }
   scrollToBottom(): void {
-    try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch (err) { }
+    // console.log(this.myScrollContainer);
+    if(this.myScrollContainer){
+      try {
+        
+        // setTimeout(() => {
+        //   this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        // }, 1000);
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      } catch (err) { }
+    }
   }
   ngOnChanges(changes: any) {
     // this.firstLoad = true;
@@ -116,11 +122,46 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
           this.messages.push(arr[arr.length - i - 1]);
         }
         this.loading = true;
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 500);
       })
       // let dataRoom: any = await this.roomSer.getRoom(value, this.count).toPromise();
 
 
     }
+  }
+  uploadMultipleFiles() {
+    return this.imageCompress
+      .uploadMultipleFiles()
+      .then(
+        (arrayOfFiles: { image: string, orientation: number }[]) => {
+          for (let i = 0; i < arrayOfFiles.length; i++) {
+            this.compressFile(arrayOfFiles[i].image, arrayOfFiles[i].orientation);
+          }
+        }
+      );
+  }
+
+  compressFile(image: any, orientation: any) {
+    this.imageCompress
+      .compressFile(image, orientation, 50, 50)
+      .then(
+        (result: DataUrl) => {
+          let test = this.imageCompress.byteCount(result);
+          // console.warn(
+          //   'Size in kbs is now:',
+          //   test/1000
+          // );  
+          if (test >= this.maxImgSizeValue) {
+            alert("file is larger than " + this.maxImgSizeValue / 1000 + "kb");
+          } else {
+            // console.log(result);
+            this.sendImg(result);
+          }
+        }
+      );
+
   }
 
   add() {
@@ -138,6 +179,43 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     });
   }
 
+  sendImg(image: string) {
+    let payload = {} as messages;
+    payload = {
+      room: this.roomSer.currentRoom,
+      image: image,
+      user: this.authSer.user,
+      status: false,
+    }
+    let fakepayload = {} as messages;
+    fakepayload = { ...payload };
+    this.messages.push(fakepayload);
+    // console.log(this.messages);
+    this.roomSer.sendMessage(payload).subscribe(res => {
+      let data = res.data;
+      let index = this.shareSer.sortedIndex(this.messages, data);
+      let search = this.messages.findIndex(item => item.status == false);
+      this.messages.splice(search, 1);
+      if (index < 0) {
+        this.messages.push(payload);
+      } else {
+        this.messages.splice(index, 0, data);
+      }
+      // console.log(this.messages);
+    });
+
+  }
+  openImageDialog(data: any) {
+    
+    let config = {
+      height: 'auto',
+      width: 'auto',
+
+
+      data: data,
+    }
+    const dialogRef = this.dialog.open(ImageDialogComponent, config);
+  }
   sendMessage() {
     let payload = {} as messages;
     payload = {
@@ -146,18 +224,18 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
       user: this.authSer.user,
       status: false
     }
-    
+
 
     if (payload.text?.length !== 0) {
       let fakepayload = payload;
-      if(this.checkLengthReply()!=0){
+      if (this.checkLengthReply() != 0) {
         fakepayload = {
           ...payload,
-          reply:this.reply
+          reply: this.reply
         }
         payload = {
           ...payload,
-          reply:this.reply._id
+          reply: this.reply._id
         }
         this.reply = {};
       }

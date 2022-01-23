@@ -9,6 +9,9 @@ import { LinebreakPipe } from 'src/app/pipes/linebreak.pipe';
 import { SideChatComponent } from '../side-chat/side-chat.component';
 import { NgxImageCompressService } from "ngx-image-compress";
 import { SharedModule } from "../../../shared/shared/shared.module";
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+
 @NgModule({
   declarations: [
     ChatComponent,
@@ -21,7 +24,9 @@ import { SharedModule } from "../../../shared/shared/shared.module";
     ChatRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    PickerModule,
+    EmojiModule
   ],
   providers: [NgxImageCompressService],
 

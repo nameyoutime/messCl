@@ -7,6 +7,8 @@ import { ShareService } from 'src/app/services/share.service';
 import { DataUrl, DOC_ORIENTATION, NgxImageCompressService, UploadResponse, } from 'ngx-image-compress';
 import { ImageDialogComponent } from 'src/app/components/image-dialog/image-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+
+
 @Component({
   selector: 'app-chat-main',
   templateUrl: './chat-main.component.html',
@@ -17,6 +19,18 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   @Input() room: any;
   public user: any;
   public firstLoad: boolean = false;
+  public showEmojiPicker = false;
+  public sets = [
+    'native',
+    'google',
+    'twitter',
+    'facebook',
+    'emojione',
+    'apple',
+    'messenger',
+  ];
+  public set = 'twitter';
+  public size :number= 20;
 
   @ViewChild("scrollMe") myScrollContainer: any;
   public data: any;
@@ -48,7 +62,12 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   }
   replyClick(value: any) {
     this.reply = value;
-    // console.log(value);
+  }
+  addEmoji(event:any){
+    this.text =`${this.text}${event.emoji.native}`
+  }
+  toggleEmojiPicker(){
+    this.showEmojiPicker = !this.showEmojiPicker;
   }
   checkImgAndReply(re: boolean = false, img: boolean = false) {
     let temp = Object.keys(this.reply).length;

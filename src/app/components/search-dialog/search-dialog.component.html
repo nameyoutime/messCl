@@ -5,7 +5,6 @@
 <h1 *ngFor="let user of result">
     <img src={{user.photoURL}} alt="a">
     {{user.displayName}}
-    <!-- <button *ngIf="user._id!==_id&&checkFriend(user._id)==0" (click)="sendFriend(user._id)">Send friends</button> -->
     <p *ngIf="user._id==_id">(YOU)</p>
     <button *ngIf="user._id!==_id&&({_id:user._id,userData:userData}|alreadyFriend)==-1" (click)="sendFriend(user._id,user)">Send friends</button>
     <p *ngIf="({_id:user._id,userData:userData}|alreadyFriend)==0">(Already Friend)</p>

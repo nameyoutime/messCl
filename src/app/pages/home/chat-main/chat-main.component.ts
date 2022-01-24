@@ -29,8 +29,8 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     'apple',
     'messenger',
   ];
-  public set = 'twitter';
-  public size :number= 20;
+  public set = 'messenger';
+  public size: number = 20;
 
   @ViewChild("scrollMe") myScrollContainer: any;
   public data: any;
@@ -56,17 +56,17 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     })
   }
   ngAfterViewChecked(): void {
-    if (this.count == 0) {
+    if (!this.loading) {
       this.scrollToBottom();
     }
   }
   replyClick(value: any) {
     this.reply = value;
   }
-  addEmoji(event:any){
-    this.text =`${this.text}${event.emoji.native}`
+  addEmoji(event: any) {
+    this.text = `${this.text}${event.emoji.native}`
   }
-  toggleEmojiPicker(){
+  toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
   checkImgAndReply(re: boolean = false, img: boolean = false) {
@@ -95,19 +95,13 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     return Object.keys(this.reply).length;
   }
   scrollToBottom(): void {
-    // console.log(this.myScrollContainer);
-    if(this.myScrollContainer){
+    if (this.myScrollContainer) {
       try {
-        
-        // setTimeout(() => {
-        //   this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-        // }, 1000);
         this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
       } catch (err) { }
     }
   }
   ngOnChanges(changes: any) {
-    // this.firstLoad = true;
     if (this.roomSer.currentRoom !== null) {
       this.firstLoad = true;
     }
@@ -126,11 +120,9 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   }
 
   async joinRoom(value: any) {
-    // console.log(this.roomSer.lastRoom);
     this.loading = false;
     this.addMore = false;
     this.count = 0;
-    // let userData = await this.authSer.getUser(this.uid).toPromise();
     this.user = this.authSer.user;
     if (value !== null && !this.addMore) {
       this.roomSer.join(value);
@@ -145,9 +137,6 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
           this.scrollToBottom();
         }, 500);
       })
-      // let dataRoom: any = await this.roomSer.getRoom(value, this.count).toPromise();
-
-
     }
   }
   uploadMultipleFiles() {
@@ -186,9 +175,13 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   add() {
     this.addMore = true;
     this.count++;
+    
+    if (this.room == null) {
+      alert("error when getting data;");
+      return;
+    }
     this.roomSer.getRoom(this.room, this.count).subscribe((data: any) => {
       let arr = data.data;
-      // console.log(arr);
       if (arr.length == 0) {
         alert("out of data");
       }
@@ -197,7 +190,6 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
       }
     });
   }
-
   sendImg(image: string) {
     let payload = {} as messages;
     payload = {
@@ -225,12 +217,9 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
 
   }
   openImageDialog(data: any) {
-    
     let config = {
       height: 'auto',
       width: 'auto',
-
-
       data: data,
     }
     const dialogRef = this.dialog.open(ImageDialogComponent, config);
@@ -243,8 +232,6 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
       user: this.authSer.user,
       status: false
     }
-
-
     if (payload.text?.length !== 0) {
       let fakepayload = payload;
       if (this.checkLengthReply() != 0) {
@@ -271,11 +258,6 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
           this.messages.splice(index, 0, data);
         }
       });
-      // console.log(this.messages);
     }
-
-
   }
-
-
 }

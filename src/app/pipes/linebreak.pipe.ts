@@ -12,8 +12,10 @@ export class LinebreakPipe implements PipeTransform {
     return this.change(data.input, data.breakpoint);
   }
   change(a: any, limit: any) {
-    // let text = (a as HTMLTextAreaElement);
-    // console.log(text);
+    // console.log(a);
+    if (a == undefined) {
+      return a;
+    }
     for (var i = 0; i < a.length; i++) {
       // console.log(a[i]);
       if (i % (limit + 1) === 0 && i > 0) {

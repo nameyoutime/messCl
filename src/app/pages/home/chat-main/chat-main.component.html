@@ -57,7 +57,8 @@
                             sending
                         </div>
                         <div style="z-index: 1;">
-                            <div *ngIf="isMoblie&&item.text" class="message">
+                            <div *ngIf="isMoblie&&item.text" class="message"   matTooltip={{item.date|getDate}}
+                            matTooltipPosition="above">
                                 {{{input:item.text,breakpoint:20}|linebreak}}
                             </div>
                             <div *ngIf="!isMoblie&&item.text" class="message" matTooltip={{item.date|getDate}}
@@ -83,12 +84,10 @@
                     <div *ngIf="isMoblie&&item.reply">
                         <div style="margin-left: 40px;">
 
-                            <div *ngIf="item.reply.text" class="moblie--reciveReply"  matTooltip={{item.date|getDate}}
-                            matTooltipPosition="above">
+                            <div *ngIf="item.reply.text" class="moblie--reciveReply">
                                 {{{input:item.reply.text,breakpoint:20}|linebreak}}
                             </div>
-                            <div *ngIf="!item.reply.text" class="moblie--imgReceiveReply"  matTooltip={{item.date|getDate}}
-                            matTooltipPosition="above">
+                            <div *ngIf="!item.reply.text" class="moblie--imgReceiveReply">
                                 <img src={{item.reply.image}} alt="img" (click)="openImageDialog(item.reply.image)">
 
                             </div>
@@ -112,12 +111,12 @@
                             <img style="width: 35px;height: 35px;border-radius: 150px;" src={{item.user?.photoURL}}
                                 alt="as">
                         </div>
-                        <span *ngIf="isMoblie&&item.text" class="message"  matTooltip={{item.date|getDate}}
-                        matTooltipPosition="above">
+                        <span *ngIf="isMoblie&&item.text" matTooltip={{item.date|getDate}}
+                        matTooltipPosition="above" class="message"  >
                             {{{input:item.text,breakpoint:20}|linebreak}}
                         </span>
-                        <span *ngIf="!isMoblie&&item.text" class="message"  matTooltip={{item.date|getDate}}
-                        matTooltipPosition="above">
+                        <span *ngIf="!isMoblie&&item.text" matTooltip={{item.date|getDate}}
+                        matTooltipPosition="above" class="message">
                             {{{input:item.text,breakpoint:30}|linebreak}}
                         </span>
                         <span *ngIf="isMoblie&&item.image"  matTooltip={{item.date|getDate}}
@@ -126,7 +125,8 @@
                                 (click)="openImageDialog(item.image)">
 
                         </span>
-                        <span *ngIf="!isMoblie&&item.image">
+                        <span *ngIf="!isMoblie&&item.image"   matTooltip={{item.date|getDate}}
+                        matTooltipPosition="above">
                             <img style="max-width: 300px;border-radius: 15px;" src={{item.image}} alt="img"
                                 (click)="openImageDialog(item.image)">
 

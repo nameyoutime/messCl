@@ -34,6 +34,36 @@ router.get('/:id', async (req, res) => {
     res.send({ data: result });
 })
 
+router.put('/addUser', async (req, res) => {
+    let { data } = req.body;
+    // console.log(data);
+    let result = await RoomDB.updateOne({ _id: data.room },
+        { $push: { user: data.user } }
+    )
+    // let result = new RoomDB(room);
+    // await result.save();
+    res.status(200).send({ data: result });
+})
+
+router.put('/deleteUser', async (req, res) => {
+    let { data } = req.body;
+    // console.log(data);
+    let result = await RoomDB.findOneAndUpdate({ _id: data.room },
+        { $pull: { user: data.user } }
+    )
+    // let result = new RoomDB(room);
+    // await result.save();
+    res.status(200).send({ data: result });
+})
+router.put('/update/:id', async (req, res) => {
+    let id = req.params.id;
+    let { data } = req.body;
+    let result = await RoomDB.findByIdAndUpdate({ _id: id }, data)
+    // console.log(result);
+    // let data = await RoomDB.find();
+    res.send({ data: result });
+})
+
 // router.put('/:id', async (req, res) => {
 //     let { subject } = req.body;
 //     let subjectId = req.params.id;

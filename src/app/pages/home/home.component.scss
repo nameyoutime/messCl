@@ -32,6 +32,25 @@
             height: 4rem;
         }
     }
+    &--groups {
+        flex-wrap: wrap;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        align-items: center;
+        display: flex;
+        border: 0.1px solid black;
+        // width: 95px;
+        // height: 96px;
+        img {
+            // clip-path: circle();
+            width: fit-content;
+            border: 1px solid black;
+            border-radius: 100%;
+            height: 4rem;
+            width: 4rem;
+        }
+    }
 }
 .user {
     flex-wrap: wrap;
@@ -53,7 +72,7 @@
         min-width: 20%;
         z-index: 9999;
         background-color: white;
-        
+
         #menu {
             height: 100%;
             justify-content: space-between;
@@ -75,5 +94,4 @@
             height: 4rem;
         }
     }
-    
 }

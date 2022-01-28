@@ -8,6 +8,7 @@ import { DataUrl, DOC_ORIENTATION, NgxImageCompressService, UploadResponse, } fr
 import { ImageDialogComponent } from 'src/app/components/image-dialog/image-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WebsocketService } from 'src/app/services/websocket.service';
+import { GroupMenuDialogComponent } from 'src/app/components/group-menu-dialog/group-menu-dialog.component';
 
 
 @Component({
@@ -83,11 +84,11 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
         this.messages.splice(index, 0, data);
       }
       setTimeout(() => {
-        
+
         this.scrollToBottom();
       }, 500);
     })
-    
+
   }
   replyClick(value: any) {
     this.reply = value;
@@ -147,6 +148,18 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     return false;
   }
 
+  openGroupMenu() {
+    let room = this.currentAvatar;
+    let friends = this.authSer.user.friends;
+    let config = {
+      data: {
+        room: room,
+        friends: friends
+      },
+    }
+    const dialogRef = this.dialog.open(GroupMenuDialogComponent, config);
+
+  }
   async joinRoom(value: any) {
     this.loading = false;
     this.addMore = false;
@@ -163,7 +176,12 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
         if (!data.isGroup) {
           for (let i = 0; i < user.length; i++) {
             if (user[i].uid !== this.authSer.uid) {
-              this.currentAvatar = user[i];
+              let temp = {
+                ...user[i],
+                isGroup: false
+              }
+              this.currentAvatar = temp;
+              break;
             }
           }
         } else {

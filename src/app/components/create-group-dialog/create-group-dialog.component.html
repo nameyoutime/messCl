@@ -1,0 +1,23 @@
+<form [formGroup]="createFrm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <h3>Create Form</h3>
+        <h4>Fill in the form</h4>
+        <div >
+
+            <img id="img" *ngIf="currentImg"  [src]="currentImg" >
+        </div>
+        <fieldset>
+            <input placeholder="Enter name" type="text" formControlName="name">
+        </fieldset>
+        <fieldset>
+            <input placeholder="Enter desc" type="text" formControlName="desc">
+        </fieldset>
+        <fieldset>
+            <button (click)="upload()">img</button>
+            <!-- <input (change)="onFileChange($event)" type="file" accept=".jpg,.jpeg,.png" class="form-control"
+                id="customFile" /> -->
+        </fieldset>
+        <!-- <label class="form-label" for="customFile">Default file input example</label> -->
+        <button #submit type="submit">create</button>
+    </div>
+</form>

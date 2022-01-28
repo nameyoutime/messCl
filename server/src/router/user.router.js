@@ -30,7 +30,7 @@ router.post('/sendReq', async (req, res) => {
     )
     res.send({ result: result });
 })
-router.post('/acceptReq', async (req, res) => {
+router.put('/acceptReq', async (req, res) => {
     let { data } = req.body;
 
     await UserDB.updateOne({ _id: data.from },
@@ -40,6 +40,23 @@ router.post('/acceptReq', async (req, res) => {
         { $push: { friends: { room: data.room, friend: data.from } } }
     )
     res.send({ result: "done" });
+})
+router.put('/deleteGroup', async (req, res) => {
+    let { data } = req.body;
+    // console.log(data);
+    let result = await UserDB.findOneAndUpdate({ _id: data.user },
+        { $pull: { groups: data.room } }
+    )
+    // console.log
+    res.send({ result: "done" });
+})
+
+
+router.put('/addToGroup', async (req, res) => {
+    let { data } = req.body;
+    let result = await UserDB.updateOne({ _id: data.user },
+        { $push: { groups: data.room } })
+    res.send({ result: result });
 })
 router.delete('/deniedReq', async (req, res) => {
     let { currId, _id } = req.query;
@@ -72,7 +89,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/uid/:uid', async (req, res) => {
     let uid = req.params.uid;
-    let data = await UserDB.find({ uid: uid }).populate("req").populate("friends.friend");
+    let data = await UserDB.find({ uid: uid }).populate("req").populate("friends.friend").populate("groups");
     res.send({ data: data })
 })
 

@@ -6,16 +6,13 @@ const Database = require('./src/database')
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, { cors: { origin: "*" } });
 
-
-
-
 async function main() {
   await Database.instance.connect();
   server.listen(config.PORT, config.HOST, () => {
     console.log(`Server started on ${config.HOST}:${config.PORT}`);
   })
 }
-
+main()
 
 io.on('connection', (socket) => {
   // console.log("user id:", socket.id);
@@ -32,4 +29,3 @@ io.on('connection', (socket) => {
     socket.to(room).emit('sendMessage',payload);
   })
 });
-main()

@@ -123,12 +123,12 @@
         border-top-right-radius: 15px;
         white-space: pre-line;
         width: fit-content;
-    }
-    &--imgReply {
-        max-width: 100px;
-        border-radius: 15px;
-        opacity: 0.8;
-        filter: alpha(opacity=40);
+        img {
+            max-width: 100px;
+            border-radius: 15px;
+            opacity: 0.8;
+            filter: alpha(opacity=40);
+        }
     }
     &--sendReply {
         position: relative;
@@ -185,7 +185,7 @@
             white-space: pre-line;
             float: left;
             background-color: #ddd;
-            border-bottom-left-radius: 15px;
+            border-bottom-left-radius: 5px;
             border-top-left-radius: 15px;
             &:first-child {
                 border-top-left-radius: 15px;
@@ -375,29 +375,29 @@
 .menuTop {
     height: 50px;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     // border: 0.1px solid black;
 
     // margin-bottom: 5px;
 
-    #avatar{
+    #avatar {
         width: 50%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         padding: 0 1rem;
-        div{
+        div {
             display: flex;
             height: 100%;
             align-items: center;
-            img{
+            img {
                 height: 40px;
                 width: 40px;
                 border-radius: 150px;
             }
         }
     }
-    #addMenu{
+    #addMenu {
         width: 50%;
         display: flex;
         justify-content: flex-end;
@@ -412,7 +412,7 @@
         height: fit-content;
     }
 }
-#addDiv{
+#addDiv {
     width: 100%;
     display: flex;
     justify-content: center;

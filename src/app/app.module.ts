@@ -13,7 +13,9 @@ import { FriendReqDialogComponent } from './components/friend-req-dialog/friend-
 import { AlreadyFriendPipe } from './pipes/already-friend.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageDialogComponent } from './components/image-dialog/image-dialog.component';
-
+import { CreateGroupDialogComponent } from './components/create-group-dialog/create-group-dialog.component';
+import { NgxImageCompressService } from "ngx-image-compress";
+import { GroupMenuDialogComponent } from './components/group-menu-dialog/group-menu-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +23,8 @@ import { ImageDialogComponent } from './components/image-dialog/image-dialog.com
     FriendReqDialogComponent,
     AlreadyFriendPipe,
     ImageDialogComponent,
+    CreateGroupDialogComponent,
+    GroupMenuDialogComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -32,7 +36,7 @@ import { ImageDialogComponent } from './components/image-dialog/image-dialog.com
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [NgxImageCompressService],
 })
 export class AppModule { }

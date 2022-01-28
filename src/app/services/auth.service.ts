@@ -15,6 +15,8 @@ export class AuthService {
   public uid: string = '';
   public user = {} as userProfile;
   public changeUser: EventEmitter<any> = new EventEmitter();
+  public updatedUser: EventEmitter<any> = new EventEmitter();
+
   constructor(private afAuth: AngularFireAuth, private http: HttpClient) {
     this.checkUser();
   }
@@ -23,6 +25,22 @@ export class AuthService {
   setCurrentUser(value: any) {
     this.user = value;
     this.changeUser.emit(this.user);
+  }
+
+  updateUser(){
+    // let temp = this.user;
+    // console.log(this.user);
+    this.updatedUser.emit("he");
+  }
+
+  renderUser(){
+    this.afAuth.authState.subscribe((user:any)=>{
+      if(user){
+        this.getUser(user.uid).subscribe((data: any) => {
+          this.user = data.data[0];
+        })
+      }
+    })
   }
   checkUser() {
     this.afAuth.authState.subscribe((user: any) => {
@@ -44,6 +62,8 @@ export class AuthService {
   checkExists(uid: string): Observable<any> {
     return this.http.get(environment.endpoint + `user/checkUid/${uid}`);
   }
+
+  
   sendFriendReq(data: any): Observable<any> {
     return this.http.post(environment.endpoint + "user/sendReq", { data: data });
   }
@@ -54,10 +74,16 @@ export class AuthService {
     return this.http.delete(environment.endpoint + `user/deniedReq?currId=${data.currId}&_id=${data._id}`)
   }
   acceptReq(data: any): Observable<any> {
-    return this.http.post(environment.endpoint + `user/acceptReq`, { data: data });
+    return this.http.put(environment.endpoint + `user/acceptReq`, { data: data });
   }
   createRoom(data: any): Observable<any> {
     return this.http.post(environment.endpoint + `room`, { room: data });
+  }
+  addToGroup(data: any): Observable<any> {
+    return this.http.put(environment.endpoint + `user/addToGroup`, { data: data });
+  }
+  deleteGroup(data: any): Observable<any> {
+    return this.http.put(environment.endpoint + `user/deleteGroup`, { data: data });
   }
   getAllUser(): Observable<any> {
     return this.http.get(environment.endpoint + `user`);
@@ -66,7 +92,7 @@ export class AuthService {
     return this.http.get(environment.endpoint + `user/checkSend?from=${body.from}&to=${body.to}`);
   }
   addUser(data: any): Observable<any> {
-    return this.http.post(environment.endpoint + 'user', { user: data });
+    return this.http.post(environment.endpoint + 'user', { user: { ...data, groups: [] } });
   }
   getUser(uid: string): Observable<any> {
     return this.http.get(environment.endpoint + `user/uid/${uid}`);

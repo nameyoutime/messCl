@@ -84,6 +84,14 @@ export class HomeComponent implements OnInit {
         localStorage.removeItem('uid');
       }
     })
+    this.authSer.updatedUser.subscribe(()=>{
+      localStorage.setItem('uid', this.uid);
+        // this.uid = user.uid;
+        this.authSer.getUser(this.uid).subscribe(data => {
+          this.data = data.data[0];
+          // this.loadData = true;
+        })
+    })
   }
   joinRoom(value: any) {
     // this.room = value;

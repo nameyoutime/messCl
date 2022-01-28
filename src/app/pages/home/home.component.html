@@ -4,6 +4,7 @@
             <app-menu [isMoblie]="isMoblie"></app-menu>
             <app-search [_id]="data._id" [data]="data"></app-search>
             <app-friendreq [req]="data.req" [_id]="data._id"></app-friendreq>
+            <app-create-group [data]="data"></app-create-group>
         </div>
 
 
@@ -19,6 +20,18 @@
 
                                 {{item.friend.displayName}}
                             </p>
+                        </div>
+                    </div>
+                    <div *ngIf="this.data.groups">
+                        Group
+                        <div *ngFor="let g of data.groups" >
+                            <div routerLink="chat" (click)="joinRoom(g._id)" class="notMoblie--groups">
+                                <img src={{g.photoURL}} alt="pop" >
+                                <p style="margin-left: 2%;">
+    
+                                    {{g.name}}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -37,6 +50,14 @@
                             <div *ngFor="let item of data.friends">
                                 <div routerLink="chat" (click)="joinRoom(item.room)" class="notMoblie--friend">
                                     <img src={{item.friend.photoURL}} alt="pop">
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="data.groups">
+                            Group
+                            <div *ngFor="let g of data.groups" >
+                                <div routerLink="chat" (click)="joinRoom(g._id)" class="notMoblie--groups">
+                                    <img src={{g.photoURL}} alt="pop" >
                                 </div>
                             </div>
                         </div>

@@ -44,13 +44,24 @@ export class RoomService {
   getRoom(room: string): Observable<any> {
     return this.http.get(environment.endpoint + `room/${room}`);
   }
-
+  updateRoom(payload:any):Observable<any>{
+    return this.http.put(environment.endpoint+"room/update"+`/${payload._id}`,{data:payload});
+  }
 
   sendMessage(payload: any): Observable<any> {
     return this.http.post(environment.endpoint + "mess/chat", { data: payload });
   }
 
+  deleteUser(payload:any):Observable<any>{
+    return this.http.put(environment.endpoint+"room/deleteUser",{data:payload});
+  }
+  addUser(payload:any):Observable<any>{
+    return this.http.put(environment.endpoint+"room/addUser",{data:payload});
+  }
 
+  createGroup(payload:any):Observable<any>{
+    return this.http.post(environment.endpoint+"room",{room:payload});
+  }
 
 
 

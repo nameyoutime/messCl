@@ -10,6 +10,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
 import { NoneComponent } from './none/none.component';
 import { MenuComponent } from './menu/menu.component';
+import { CreateGroupComponent } from './create-group/create-group.component';
+
 
 
 // import { ChatMainComponent } from './chat-main/chat-main.component';
@@ -23,11 +25,13 @@ import { MenuComponent } from './menu/menu.component';
     SearchComponent,
     NoneComponent,
     MenuComponent,
+    CreateGroupComponent,
 
 
     // ChatMainComponent
   ],
   imports: [
+
     CommonModule,
     HomeRoutingModule,
     SharedModule,

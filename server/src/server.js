@@ -6,7 +6,7 @@ const server = express();
 // router
 const user = require('./router/user.router');
 const room = require('./router/room.router');
-const mess = require('./router/message.schemas');
+const mess = require('./router/message.router');
 
 
 

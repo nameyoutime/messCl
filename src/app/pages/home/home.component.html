@@ -22,7 +22,7 @@
                             </p>
                         </div>
                     </div>
-                    <div *ngIf="this.data.groups">
+                    <div *ngIf="data.groups.length>0">
                         Group
                         <div *ngFor="let g of data.groups" >
                             <div routerLink="chat" (click)="joinRoom(g._id)" class="notMoblie--groups">
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="data.groups">
+                        <div *ngIf="data.groups.length>0">
                             Group
                             <div *ngFor="let g of data.groups" >
                                 <div routerLink="chat" (click)="joinRoom(g._id)" class="notMoblie--groups">

@@ -16,6 +16,18 @@ main()
 
 io.on('connection', (socket) => {
   // console.log("user id:", socket.id);
+  socket.on('touch', data => {
+    // socket.leave(data);
+    // console.log(data);
+    socket.to(data).emit("render","a");
+  })
+  socket.on('user-join', data => {
+    // console.log(data);
+    socket.join(data);
+  })
+  socket.on('user-leave', data => {
+    socket.leave(data);
+  })
   socket.on('join', room => {
     socket.join(room);
   })

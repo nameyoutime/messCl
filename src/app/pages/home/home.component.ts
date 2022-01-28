@@ -10,6 +10,7 @@ import {
   animate,
   state,
 } from '@angular/animations';
+import { WebsocketService } from 'src/app/services/websocket.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -19,20 +20,20 @@ import {
       state(
         'closed',
         style({
-        
-        transform: 'translate3d(0,0,0)',
-        
+
+          transform: 'translate3d(0,0,0)',
+
 
           // height: 0,
         })
       ),
       state(
         'open',
-        
+
         style({
-        
-        transform: 'translate3d(-100%,0,0)',
-        
+
+          transform: 'translate3d(-100%,0,0)',
+
           width: '0%',
           // height: '100%',
         })
@@ -71,7 +72,7 @@ export class HomeComponent implements OnInit {
   public innerWidth: any;
   public isMoblie: boolean = false;
 
-  constructor(public shareSer: ShareService, private authSer: AuthService, private afAuth: AngularFireAuth, private roomSer: RoomService) {
+  constructor(private socket: WebsocketService, public shareSer: ShareService, private authSer: AuthService, private afAuth: AngularFireAuth, private roomSer: RoomService) {
     this.afAuth.authState.subscribe((user: any) => {
       if (user) {
         localStorage.setItem('uid', user.uid);
@@ -84,13 +85,18 @@ export class HomeComponent implements OnInit {
         localStorage.removeItem('uid');
       }
     })
-    this.authSer.updatedUser.subscribe(()=>{
-      localStorage.setItem('uid', this.uid);
-        // this.uid = user.uid;
-        this.authSer.getUser(this.uid).subscribe(data => {
-          this.data = data.data[0];
-          // this.loadData = true;
-        })
+    this.authSer.updatedUser.subscribe(() => {
+      // localStorage.setItem('uid', this.uid);
+      // this.uid = user.uid;
+      this.authSer.getUser(this.uid).subscribe(data => {
+        this.data = data.data[0];
+        // this.loadData = true;
+      })
+    })
+    socket.on('render').subscribe(() => {
+      this.authSer.getUser(this.uid).subscribe(data => {
+        this.data = data.data[0];
+      })
     })
   }
   joinRoom(value: any) {
@@ -107,7 +113,7 @@ export class HomeComponent implements OnInit {
     if (this.innerWidth <= 425) {
       this.isMoblie = true;
       // console.log("moblie");
-    }else{
+    } else {
       this.isMoblie = false;
 
     }
@@ -119,7 +125,7 @@ export class HomeComponent implements OnInit {
       // console.log("moblie");
       this.isMoblie = true;
 
-    }else{
+    } else {
       this.isMoblie = false;
 
     }

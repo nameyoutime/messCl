@@ -7,6 +7,7 @@ import { mergeMap, filter, catchError } from 'rxjs/operators'
 
 import { environment } from 'src/environments/environment';
 import { userProfile } from '../models/user-profile.model';
+import { WebsocketService } from './websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthService {
   public changeUser: EventEmitter<any> = new EventEmitter();
   public updatedUser: EventEmitter<any> = new EventEmitter();
 
-  constructor(private afAuth: AngularFireAuth, private http: HttpClient) {
+  constructor(private afAuth: AngularFireAuth, private http: HttpClient, private socket: WebsocketService) {
     this.checkUser();
   }
 
@@ -27,6 +28,7 @@ export class AuthService {
     // socket emmit leave with uid if uid is null then ignore;
     if (this.uid.length > 0) {
       console.log("leave with uid:", this.uid);
+      this.socket.emit('user-leave', this.uid);
     }
     this.user = value;
     this.changeUser.emit(this.user);
@@ -57,7 +59,9 @@ export class AuthService {
         this.uid = user.uid;
         // join
         // socket emmit join  with uid
-        console.log("join with uid:",this.uid);
+        console.log("join with uid:", this.uid);
+        this.socket.emit('user-join', this.uid);
+
         this.getUser(this.uid).subscribe((data: any) => {
           this.user = data.data[0];
         })
@@ -127,7 +131,7 @@ export class AuthService {
         // handle the error accordingly.
       })
     ).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       localStorage.setItem('uid', dataUser.user.uid);
       this.uid = dataUser.user.uid;
 

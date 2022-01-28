@@ -1,41 +1,44 @@
-<form [formGroup]="frm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <h3>Create Form</h3>
-        <h4>Fill in the form</h4>
-        <div>
+<div *ngIf="doneLoading">
 
-            <img id="img" *ngIf="currentImg" [src]="currentImg">
-        </div>
-        <fieldset>
-            <input placeholder="Enter name" type="text" formControlName="name">
-        </fieldset>
-        <fieldset>
-            <input placeholder="Enter desc" type="text" formControlName="desc">
-        </fieldset>
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <h3>Create Form</h3>
+            <h4>Fill in the form</h4>
+            <div>
 
-        <!-- <label class="form-label" for="customFile">Default file input example</label> -->
-        <button #submit type="submit" style="visibility: hidden;">update</button>
-    </div>
-</form>
-<fieldset>
-    <button (click)="upload()" >img</button>
-    <!-- <input (change)="onFileChange($event)" type="file" accept=".jpg,.jpeg,.png" class="form-control"
-        id="customFile" /> -->
-</fieldset>
-<select #device (change)="onChange($event, device.value)">
-    <option *ngFor="let i of friends">{{i.friend.displayName}}</option>
-</select>
-<button (click)="clickAdd()">add</button>
-<div>
-    current user in room
-    <div *ngFor="let user of users;let i = index">
-        <div>
-            <p>
-                {{user.displayName}}
-            </p>
-            <button *ngIf="authSer.user.uid!==user.uid" (click)="deleteUser(i)">x</button>
-            <p *ngIf="authSer.user.uid==user.uid">(you)</p>
+                <img id="img" *ngIf="currentImg" [src]="currentImg">
+            </div>
+            <fieldset>
+                <input placeholder="Enter name" type="text" formControlName="name">
+            </fieldset>
+            <fieldset>
+                <input placeholder="Enter desc" type="text" formControlName="desc">
+            </fieldset>
+
+            <!-- <label class="form-label" for="customFile">Default file input example</label> -->
+            <button #submit type="submit" style="visibility: hidden;">update</button>
+        </div>
+    </form>
+    <fieldset>
+        <button (click)="upload()">img</button>
+        <!-- <input (change)="onFileChange($event)" type="file" accept=".jpg,.jpeg,.png" class="form-control"
+            id="customFile" /> -->
+    </fieldset>
+    <select #device (change)="onChange($event, device.value)">
+        <option *ngFor="let i of friends">{{i.friend.displayName}}</option>
+    </select>
+    <button (click)="clickAdd()">add</button>
+    <div>
+        current user in room
+        <div *ngFor="let user of users;let i = index">
+            <div>
+                <p>
+                    {{user.displayName}}
+                </p>
+                <button *ngIf="authSer.user.uid!==user.uid" (click)="deleteUser(i,user)">x</button>
+                <p *ngIf="authSer.user.uid==user.uid">(you)</p>
+            </div>
         </div>
     </div>
+    <button (click)="submit.click()">update</button>
 </div>
-<button (click)="submit.click()">update</button>

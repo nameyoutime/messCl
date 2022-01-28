@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 @Component({
   selector: 'app-friend-req-dialog',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class FriendReqDialogComponent implements OnInit {
   
-  constructor(
+  constructor(private socket:WebsocketService,
     public dialogRef: MatDialogRef<FriendReqDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authSer: AuthService
@@ -20,7 +21,7 @@ export class FriendReqDialogComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  denied(_id: string,index:number) {
+  denied(_id: string,index:number,user:any) {
     let temp = {
       currId: this._id,
       _id: _id
@@ -29,14 +30,15 @@ export class FriendReqDialogComponent implements OnInit {
     
     // delete this.req[index];
     // let resut = temp1.slice(3,1)
-    this.req.splice(index, 1)
+    this.req.splice(index, 1);
+
 
     // console.log(temp1);
     this.authSer.deniedReq(temp).subscribe((data: any) => {
       console.log(data);
     })
   }
-  accept(_id: string,index:number) {
+  accept(_id: string,index:number,user:any) {
     let temp = {
       user: [
         this._id, _id
@@ -51,11 +53,11 @@ export class FriendReqDialogComponent implements OnInit {
         room: data.data._id
       }
       this.authSer.acceptReq(temp1).subscribe((data: any) => {
-        console.log(data);
-        this.denied(_id,index);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // console.log(data);
+        this.socket.emit("touch",user.uid);
+
+        this.denied(_id,index,user);
+        this.authSer.updateUser();
       })
     })
   }

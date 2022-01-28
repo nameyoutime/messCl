@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { mergeMap, filter, catchError, take, toArray } from 'rxjs/operators'
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 @Component({
   selector: 'app-search-dialog',
@@ -11,6 +12,7 @@ import { mergeMap, filter, catchError, take, toArray } from 'rxjs/operators'
 export class SearchDialogComponent implements OnInit {
 
   constructor(
+    private socket:WebsocketService,
     public dialogRef: MatDialogRef<SearchDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authSer: AuthService
@@ -38,6 +40,7 @@ export class SearchDialogComponent implements OnInit {
         alert(`already send friend request to ${user.displayName}`);
       }else if(data.length>0){
         alert(`send friend request to ${user.displayName}`);
+        this.socket.emit("touch",user.uid);
       }
     })
     // await this.authSer.sendFriendReq(temp).toPromise();

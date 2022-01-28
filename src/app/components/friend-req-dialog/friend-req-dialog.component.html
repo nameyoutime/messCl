@@ -6,7 +6,7 @@
 
         <img src={{user.photoURL}} alt="a">
         {{user.displayName}}
-        <button (click)="accept(user._id,i)">accept</button>
-        <button (click)="denied(user._id,i)">denie</button>
+        <button (click)="accept(user._id,i,user)">accept</button>
+        <button (click)="denied(user._id,i,user)">denie</button>
     </div>
 </div>

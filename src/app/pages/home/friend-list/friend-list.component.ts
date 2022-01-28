@@ -45,7 +45,6 @@ export class FriendListComponent implements OnInit {
   ngOnInit(): void {
     this.shareSer.menuUpdated.subscribe(val=>{
       this.menu = val;
-      console.log(this.menu);
     })
   }
   joinChat(room: string) {

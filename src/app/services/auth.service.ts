@@ -23,19 +23,26 @@ export class AuthService {
 
 
   setCurrentUser(value: any) {
+    // leave
+    // socket emmit leave with uid if uid is null then ignore;
+    if (this.uid.length > 0) {
+      console.log("leave with uid:", this.uid);
+    }
     this.user = value;
     this.changeUser.emit(this.user);
+
+
   }
 
-  updateUser(){
+  updateUser() {
     // let temp = this.user;
     // console.log(this.user);
     this.updatedUser.emit("he");
   }
 
-  renderUser(){
-    this.afAuth.authState.subscribe((user:any)=>{
-      if(user){
+  renderUser() {
+    this.afAuth.authState.subscribe((user: any) => {
+      if (user) {
         this.getUser(user.uid).subscribe((data: any) => {
           this.user = data.data[0];
         })
@@ -45,10 +52,12 @@ export class AuthService {
   checkUser() {
     this.afAuth.authState.subscribe((user: any) => {
       if (user) {
+        this.setCurrentUser(user.uid);
         localStorage.setItem('uid', user.uid);
         this.uid = user.uid;
-        // console.log(this.uid);
-        this.setCurrentUser(user.uid);
+        // join
+        // socket emmit join  with uid
+        console.log("join with uid:",this.uid);
         this.getUser(this.uid).subscribe((data: any) => {
           this.user = data.data[0];
         })
@@ -63,7 +72,7 @@ export class AuthService {
     return this.http.get(environment.endpoint + `user/checkUid/${uid}`);
   }
 
-  
+
   sendFriendReq(data: any): Observable<any> {
     return this.http.post(environment.endpoint + "user/sendReq", { data: data });
   }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { WebsocketService } from './websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class RoomService {
 
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private socket: WebsocketService) { }
 
   setCurrentRoom(value: any) {
     if (this.currentRoom !== value) {
@@ -25,22 +26,30 @@ export class RoomService {
   }
 
   join(room: string) {
-    console.log("join room:", room);
+    // console.log("join room:", room);
+    this.socket.emit("join", room);
   }
   leave() {
     if (this.currentRoom !== null) {
-      console.log("leave room:", this.currentRoom);
+      // console.log("leave room:", this.currentRoom);
+      this.socket.emit("leave", this.currentRoom);
+
     }
   }
 
-  getRoom(room: string, count: number): Observable<any> {
+  getMessage(room: string, count: number): Observable<any> {
     return this.http.get(environment.endpoint + `mess/chat?limit=${this.limit}&room=${room}&count=${count}`);
   }
+
+  getRoom(room: string): Observable<any> {
+    return this.http.get(environment.endpoint + `room/${room}`);
+  }
+
 
   sendMessage(payload: any): Observable<any> {
     return this.http.post(environment.endpoint + "mess/chat", { data: payload });
   }
-  
+
 
 
 

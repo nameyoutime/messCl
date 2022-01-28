@@ -7,6 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+
+
 const importModule = [
   CommonModule,
   SharedRoutingModule,
@@ -14,7 +16,8 @@ const importModule = [
   ReactiveFormsModule,
   HttpClientModule,
   PickerModule,
-  EmojiModule
+  EmojiModule,
+
 ]
 const materialModule = [
   MatDialogModule

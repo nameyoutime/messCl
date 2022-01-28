@@ -28,8 +28,8 @@
                     </div>
                 </div>
             </div>
-            <div [@widthGrowM]="(shareSer.menuMoblie)?'open':'closed'" class="moblie--main">
-                <div>
+            <div *ngIf="isMoblie" [@widthGrowM]="(shareSer.menuMoblie)?'open':'closed'" class="moblie--main">
+                <div id="menu">
                     <div>
                         <app-menu [isMoblie]="isMoblie"></app-menu>
                         <div>

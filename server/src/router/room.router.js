@@ -26,6 +26,13 @@ router.post('/', async (req, res) => {
     await result.save();
     res.status(200).send({ data: result });
 })
+router.get('/:id', async (req, res) => {
+    let id = req.params.id;
+    let result = await RoomDB.findById(id).populate('user');
+    // console.log(result);
+    // let data = await RoomDB.find();
+    res.send({ data: result });
+})
 
 // router.put('/:id', async (req, res) => {
 //     let { subject } = req.body;

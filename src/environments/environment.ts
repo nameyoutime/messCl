@@ -11,7 +11,8 @@ export const environment = {
     authDomain: 'messclone-5c671.firebaseapp.com',
     messagingSenderId: '914739633015',
   },
-  endpoint:"http://localhost:8080/api/"
+  endpoint:"http://localhost:8080/api/",
+  SOCKET_ENDPOINT:"http://localhost:8080"
   ,
   production: false
 };

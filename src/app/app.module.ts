@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FriendReqDialogComponent } from './components/friend-req-dialog/friend-req-dialog.component';
 import { AlreadyFriendPipe } from './pipes/already-friend.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ImageDialogComponent } from './components/image-dialog/image-dialog.component'; 
+import { ImageDialogComponent } from './components/image-dialog/image-dialog.component';
 
 @NgModule({
   declarations: [

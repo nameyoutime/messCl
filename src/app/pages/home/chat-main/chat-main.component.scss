@@ -7,7 +7,6 @@
 //-----GLOBAL
 * {
     box-sizing: border-box;
-    
 }
 .clearfix {
     &:after {
@@ -32,7 +31,7 @@
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 .conversation {
-    height: calc(100% - 50px);
+    height: calc(100% - 100px);
     overflow: auto;
     padding: 20px;
     padding-bottom: 0;
@@ -186,8 +185,8 @@
             white-space: pre-line;
             float: left;
             background-color: #ddd;
-            border-bottom-left-radius: 5px;
-            border-top-left-radius: 5px;
+            border-bottom-left-radius: 15px;
+            border-top-left-radius: 15px;
             &:first-child {
                 border-top-left-radius: 15px;
             }
@@ -373,14 +372,53 @@
     }
 }
 
-.add {
+.menuTop {
+    height: 50px;
     display: flex;
-    justify-content: center;
-    margin-bottom: 5px;
-    button {
-        text-align: center;
+    justify-content: end;
+    // border: 0.1px solid black;
+
+    // margin-bottom: 5px;
+
+    #avatar{
+        width: 50%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0 1rem;
+        div{
+            display: flex;
+            height: 100%;
+            align-items: center;
+            img{
+                height: 40px;
+                width: 40px;
+                border-radius: 150px;
+            }
+        }
+    }
+    #addMenu{
+        width: 50%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 1rem;
+    }
+
+    #menu {
         border-radius: 5px;
         background-color: white;
         border: 0.1px solid black;
+        height: fit-content;
+    }
+}
+#addDiv{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    #add {
+        text-align: center;
+        border-radius: 5px;
+        background-color: white;
     }
 }

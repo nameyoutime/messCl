@@ -7,9 +7,20 @@
 <div *ngIf="loading && firstLoad" class="border">
 
     <div class="screen">
+        <div class="menuTop">
+            <div id="avatar" *ngIf="!isGroup&& currentAvatar">
+                <div>
+                    <img src={{currentAvatar.photoURL}} alt="as">
+                    <p>{{currentAvatar.displayName}}</p>
+                </div>
+            </div>
+            <div id="addMenu" *ngIf="!isGroup &&currentAvatar">
+                <button id="menu" style="cursor: pointer;">menu</button>
+            </div>
+        </div>
         <div class="conversation" #scrollMe>
-            <div class="add">
-                <button (click)="add()" style="cursor: pointer;">add more</button>
+            <div id="addDiv">
+                <button id="add" (click)="add()" style="cursor: pointer;">add more</button>
             </div>
             <div *ngFor="let item of messages">
 
@@ -22,7 +33,7 @@
                         <div *ngIf="item.reply.image" class="moblie--imgSendReply">
                             <img class="moblie--imgReply" src={{item.reply.image}} alt="img"
                                 (click)="openImageDialog(item.reply.image)">
-                                
+
                         </div>
                     </div>
                     <div *ngIf="!isMoblie&&item.reply">
@@ -46,17 +57,20 @@
                             sending
                         </div>
                         <div style="z-index: 1;">
-                            <div *ngIf="isMoblie&&item.text" class="message" >
+                            <div *ngIf="isMoblie&&item.text" class="message">
                                 {{{input:item.text,breakpoint:20}|linebreak}}
                             </div>
-                            <div *ngIf="!isMoblie&&item.text" class="message">
+                            <div *ngIf="!isMoblie&&item.text" class="message" matTooltip={{item.date|getDate}}
+                                matTooltipPosition="above">
                                 {{{input:item.text,breakpoint:30}|linebreak}}
                             </div>
-                            <div *ngIf="isMoblie&&item.image">
+                            <div *ngIf="isMoblie&&item.image"  matTooltip={{item.date|getDate}}
+                            matTooltipPosition="above">
                                 <img style="max-width: 200px;border-radius: 15px;" src={{item.image}} alt="img"
                                     (click)="openImageDialog(item.image)">
                             </div>
-                            <div *ngIf="!isMoblie&&item.image">
+                            <div *ngIf="!isMoblie&&item.image"  matTooltip={{item.date|getDate}}
+                            matTooltipPosition="above">
                                 <img style="max-width: 300px;border-radius: 15px;" src={{item.image}} alt="img"
                                     (click)="openImageDialog(item.image)">
                             </div>
@@ -67,18 +81,23 @@
                 <div *ngIf="authSer.uid!==item.user?.uid" class="messages messages--received">
                     <!-- reply -->
                     <div *ngIf="isMoblie&&item.reply">
-                        <div>
-                            <div *ngIf="item.reply.text" class="moblie--reciveReply">
+                        <div style="margin-left: 40px;">
+
+                            <div *ngIf="item.reply.text" class="moblie--reciveReply"  matTooltip={{item.date|getDate}}
+                            matTooltipPosition="above">
                                 {{{input:item.reply.text,breakpoint:20}|linebreak}}
                             </div>
-                            <div *ngIf="!item.reply.text" class="moblie--imgReceiveReply">
+                            <div *ngIf="!item.reply.text" class="moblie--imgReceiveReply"  matTooltip={{item.date|getDate}}
+                            matTooltipPosition="above">
                                 <img src={{item.reply.image}} alt="img" (click)="openImageDialog(item.reply.image)">
 
                             </div>
                         </div>
                     </div>
                     <div *ngIf="!isMoblie&&item.reply">
-                        <div>
+
+                        <div style="margin-left: 40px;">
+
                             <div *ngIf="item.reply.text" class="notMoblie--reciveReply">
                                 {{{input:item.reply.text,breakpoint:30}|linebreak}}
                             </div>
@@ -89,13 +108,20 @@
                         </div>
                     </div>
                     <div style="z-index: 1;">
-                        <span *ngIf="isMoblie&&item.text" class="message">
+                        <div style="margin-right: 5px;">
+                            <img style="width: 35px;height: 35px;border-radius: 150px;" src={{item.user?.photoURL}}
+                                alt="as">
+                        </div>
+                        <span *ngIf="isMoblie&&item.text" class="message"  matTooltip={{item.date|getDate}}
+                        matTooltipPosition="above">
                             {{{input:item.text,breakpoint:20}|linebreak}}
                         </span>
-                        <span *ngIf="!isMoblie&&item.text" class="message">
+                        <span *ngIf="!isMoblie&&item.text" class="message"  matTooltip={{item.date|getDate}}
+                        matTooltipPosition="above">
                             {{{input:item.text,breakpoint:30}|linebreak}}
                         </span>
-                        <span *ngIf="isMoblie&&item.image">
+                        <span *ngIf="isMoblie&&item.image"  matTooltip={{item.date|getDate}}
+                        matTooltipPosition="above">
                             <img style="max-width: 200px;border-radius: 15px;" src={{item.image}} alt="img"
                                 (click)="openImageDialog(item.image)">
 
@@ -109,6 +135,7 @@
                         <div style="z-index: 1;">
                             <app-side-chat [item]='item' (replyEvent)="replyClick($event)"></app-side-chat>
                         </div>
+
                     </div>
                 </div>
 

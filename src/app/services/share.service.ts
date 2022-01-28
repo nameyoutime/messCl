@@ -9,7 +9,7 @@ export class ShareService {
   public menuMoblie: boolean = true;
   public menuMoblieUpdated: EventEmitter<any> = new EventEmitter();
   public isMoblie: boolean = false;
-  
+
 
   constructor() {
 
@@ -31,8 +31,8 @@ export class ShareService {
     return result;
   }
   //Date month year
-  getDate() {
-    let date = new Date();
+  getDate(value: number) {
+    let date = new Date(value);
     let year = this.formatDate(date.getFullYear(), 4);
     let month;
     if (date.getMonth() == 12) {
@@ -45,7 +45,7 @@ export class ShareService {
     let min = this.formatDate(date.getMinutes(), 2);
     let MDY = month + '-' + day + '-' + year;
     let HM = hour + ':' + min;
-    let result = MDY + "T" + HM;
+    let result = MDY + " " + HM;
     return result;
   }
   sortedIndex(array: Array<any>, value: any) {

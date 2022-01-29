@@ -112,6 +112,7 @@ export class HomeComponent implements OnInit {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth <= 425) {
       this.isMoblie = true;
+      // console.log(this.isMoblie);
       // console.log("moblie");
     } else {
       this.isMoblie = false;

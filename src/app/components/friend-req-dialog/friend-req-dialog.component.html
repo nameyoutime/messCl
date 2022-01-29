@@ -1,12 +1,33 @@
 <div *ngIf="req.length==0">
-    <h1 style="color:red">u have no friends req :D</h1>
+    <!-- <h1 style="color:red">u have no friends req :D</h1> -->
+    <h1 class="tex-cener">You have no friends request</h1>
 </div>
-<div *ngIf="req.length>0">
-    <div *ngFor="let user of req;let i = index">
+
+<!-- <div *ngFor="let user of req;let i = index">
 
         <img src={{user.photoURL}} alt="a">
         {{user.displayName}}
         <button (click)="accept(user._id,i,user)">accept</button>
         <button (click)="denied(user._id,i,user)">denie</button>
-    </div>
-</div>
+    </div> -->
+<ul *ngIf="req.length>0" class="list-group" style="max-height: 50vh;overflow-y: scroll;">
+    <li class="list-group-item list-group-item-action" *ngFor="let user of req;let i = index">
+        <div class="row no-gutters align-items-center">
+            <div class="col-3">
+                <img class="rounded-circle w-100" src={{user.photoURL}} alt="user">
+            </div>
+            <div class="col-9">
+                <p class="text-center">{{user.displayName}}</p>
+                <div>
+                    <button class="ml-1 btn btn-outline-secondary btn-sm" type="button" (click)="accept(user._id,i,user)">Accept</button>
+                    <button class="ml-1 btn btn-outline-secondary btn-sm" type="button" (click)="denied(user._id,i,user)">Deny</button>
+                </div>
+
+            </div>
+        </div>
+
+    </li>
+
+
+
+</ul>

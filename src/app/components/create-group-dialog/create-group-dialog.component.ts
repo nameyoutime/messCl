@@ -64,6 +64,7 @@ export class CreateGroupDialogComponent implements OnInit {
       }
       this.authSer.addToGroup(payload).subscribe(res=>{
         console.log(res);
+        this.dialogRef.close();
       })
     });
   }

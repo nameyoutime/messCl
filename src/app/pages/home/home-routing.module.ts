@@ -5,9 +5,8 @@ import { NoneComponent } from './none/none.component';
 
 const routes: Routes = [{
   path: '', component: HomeComponent, children: [
-    { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) },
-    { path: '**', component:NoneComponent },
-
+    { path: 'chat', loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule) }
+    , { path: "**", component: NoneComponent }
   ],
 }]
 

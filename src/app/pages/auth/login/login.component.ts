@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-login',
@@ -7,12 +8,17 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authSer:AuthService) { }
-  
+  constructor(private authSer: AuthService, private router: Router) { }
+
   ngOnInit(): void {
   }
-  login(){
-    this.authSer.loginWithGoogle();
+  login() {
+    this.authSer.loginWithGoogle().then(()=>{
+      setTimeout(() => {
+        this.router.navigate(['./home']);
+      }, 1000);
+    });
+    // console.log(result);
   }
 
 }

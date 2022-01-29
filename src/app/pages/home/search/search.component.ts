@@ -14,10 +14,10 @@ export class SearchComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
   ngOnInit(): void {
+    
   }
   openDialog() {
     let config = {
-      width: '250px',
       data: { data:this.data,_id:this._id },
     }
     const dialogRef = this.dialog.open(SearchDialogComponent,config);

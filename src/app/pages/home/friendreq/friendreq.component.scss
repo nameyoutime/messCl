@@ -1,6 +1,4 @@
-button {
-    border-radius: 5px;
-    background-color: white;
-    border: 0.1px solid black;
-    cursor: pointer;
+.btn:hover{
+    background-color: rgb(180, 180, 180);
+    transition: 400ms ease-in-out;
 }

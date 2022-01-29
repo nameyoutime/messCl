@@ -22,6 +22,7 @@ export class SearchDialogComponent implements OnInit {
   public _id: any = this.data._id;
   public userData: any = this.data.data;
   ngOnInit(): void {
+    console.log(this.userData.friends.length);
   }
   sendFriend(_id: string,user:any) {
     let temp = {

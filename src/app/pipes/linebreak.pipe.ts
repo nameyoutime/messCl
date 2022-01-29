@@ -10,7 +10,7 @@ export class LinebreakPipe implements PipeTransform {
   }
   change(a: any, limit: any) {
     if (a == undefined) {
-      return a;
+      return "text not found";
     }
     for (var i = 0; i < a.length; i++) {
       if (i % (limit + 1) === 0 && i > 0) {

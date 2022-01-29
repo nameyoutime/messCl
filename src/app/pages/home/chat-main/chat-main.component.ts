@@ -283,8 +283,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   }
   openImageDialog(data: any) {
     let config = {
-      height: 'auto',
-      width: 'auto',
+      panelClass: 'custom-modalbox',
       data: data,
     }
     const dialogRef = this.dialog.open(ImageDialogComponent, config);

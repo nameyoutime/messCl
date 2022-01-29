@@ -1,88 +1,239 @@
+<div *ngIf="!loadData"  class="border w-100 d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="spinner-border" style="width: 5rem; height: 5rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
 <div *ngIf="loadData" style="height: 100vh;">
     <div style="height: 100%;">
-        <div style="height: 20px">
-            <app-menu [isMoblie]="isMoblie"></app-menu>
-            <app-search [_id]="data._id" [data]="data"></app-search>
-            <app-friendreq [req]="data.req" [_id]="data._id"></app-friendreq>
-            <app-create-group [data]="data"></app-create-group>
-        </div>
+        <!-- <div style="height: 20px">
+        </div> -->
+        <app-menu [isMoblie]="isMoblie"></app-menu>
 
 
         <div class="mainDiv">
+            <!-- <div *ngIf="!isMoblie" style="border: solid black 0.1px;" [@widthGrow]="(shareSer.menu)?'open':'closed'">
+                <div class="card">
+                    <div class="row no-gutters">
+                        <div class="col-sm-5">
+                            <img class="rounded-circle w-50" src="https://lh3.googleusercontent.com/ogw/ADea4I5Qhk0t36mgXscVtIlGPVntmVXqW4UBzpqK5pGtjA=s32-c-mo" alt="Suresh Dasari Card">
+                        </div>
+                        <div class="col-sm-7">
+                            <h1 class="w-50">Suresh Dasari</h1>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
 
-            <div *ngIf="!isMoblie" class="notMoblie--main" [@widthGrow]="(shareSer.menu)?'open':'closed'">
+            <div *ngIf="!isMoblie" class="notMoblie--main" style="background-color: lightgray;"
+                [@widthGrow]="(shareSer.menu)?'open':'closed'">
                 <div>
-                    <h1 *ngIf="data.friends.length==0">u have no friends :D</h1>
-                    <div *ngFor="let item of data.friends">
-                        <div routerLink="chat" (click)="joinRoom(item.room)" class="notMoblie--friend">
+                    <div *ngIf="data.friends.length==0" style="height: 50vh;" class="d-flex align-items-end justify-content-center">
+                        <div class="d-flex flex-column align-items-center">
+                            
+                            
+                            <h1>Your list friend is empty</h1>
+                            <div>
+                                Search for friend here! >
+                                <app-search></app-search>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <div class="card p-1 hover-card m-1 justify-content-center" style="cursor:pointer;height: 100px;">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-9">
+                                <p>asd</p>
+                            </div>
+                        </div>
+                    </div> -->
+                    <h1 class="text-center mt-1">Friends</h1>
+                    <div *ngFor="let item of data.friends" class="contacts">
+
+                        <!-- <div routerLink="chat" (click)="joinRoom(item.room)" class="notMoblie--friend card">
                             <img src={{item.friend.photoURL}} alt="pop">
                             <p style="margin-left: 2%;">
 
                                 {{item.friend.displayName}}
                             </p>
+                        </div> -->
+                        <div class="card p-1 hover-card m-1 justify-content-center"
+                            style="cursor:pointer;height: 100px;">
+                            <div class="row no-gutters align-items-center" routerLink="chat"
+                                (click)="joinRoom(item.room)">
+                                <div class="col-3">
+                                    <img class="rounded-circle w-100" src={{item.friend.photoURL}} alt="user">
+                                </div>
+                                <div class="col-9">
+                                    <p>{{item.friend.displayName}}</p>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                     <div *ngIf="data.groups.length>0">
-                        Group
-                        <div *ngFor="let g of data.groups" >
-                            <div routerLink="chat" (click)="joinRoom(g._id)" class="notMoblie--groups">
-                                <img src={{g.photoURL}} alt="pop" >
+                        <hr />
+                        <h1 class="text-center">Group</h1>
+                        <div *ngFor="let g of data.groups">
+                            <!-- <div routerLink="chat" (click)="joinRoom(g._id)" class="notMoblie--groups">
+                                <img src={{g.photoURL}} alt="pop">
                                 <p style="margin-left: 2%;">
-    
+
                                     {{g.name}}
                                 </p>
+                            </div> -->
+                            <div class="card p-1 hover-card m-1 justify-content-center"
+                                style="cursor:pointer;height: 100px;">
+                                <div class="row no-gutters align-items-center h-100" routerLink="chat"
+                                    (click)="joinRoom(g._id)">
+                                    <div class="col-3" style="height: 100%;">
+                                    <img  id="square" src={{g.photoURL}} alt="user" class="img-fluid">
+                                        
+                                        <!-- <div [ngStyle]="{'background-image': 'url(' + g.photoURL + ') '}"
+                                            style="width: 50px;height: 50px;background-size:100%;background-repeat: no-repeat;"
+                                            class="rounded-circle "></div> -->
+                                        <!-- <img style="height: 4rem;" class="w-100 rounded-circle img-fluid"   src={{g.photoURL}} alt="user"> -->
+                                    </div>
+                                    <div class="col-9">
+                                        <p>{{g.name}}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div>
-                    <div class="user">
+                    <hr />
+                    <div class="user p-1 d-flex">
                         <img src={{data.photoURL}} alt="pop">
+                        <button class="btn"><i class="fa fa-cog fa-lg"></i></button>
+                        <div class="d-flex align-items-center">
+                            <app-search [_id]="data._id" [data]="data"></app-search>
+
+
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <app-friendreq [req]="data.req" [_id]="data._id"></app-friendreq>
+
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <app-create-group [data]="data"></app-create-group>
+                        </div>
+                        <!-- <button class="btn"><i class="fa fa-users fa-lg"></i></button> -->
+
+
+
                     </div>
                 </div>
             </div>
-            <div *ngIf="isMoblie" [@widthGrowM]="(shareSer.menuMoblie)?'open':'closed'" class="moblie--main">
+            <div *ngIf="isMoblie" [@widthGrowM]="(shareSer.menuMoblie)?'open':'closed'" class="moblie--main"
+                style="background-color: lightgray;">
                 <div id="menu">
                     <div>
                         <app-menu [isMoblie]="isMoblie"></app-menu>
-                        <div>
-                            <h1 *ngIf="data.friends.length==0">u have no friends :D</h1>
+                        <div class="mt-4">
+                            <!-- <h1 *ngIf="data.friends.length==0">u have no friends :D</h1>
                             <div *ngFor="let item of data.friends">
                                 <div routerLink="chat" (click)="joinRoom(item.room)" class="notMoblie--friend">
                                     <img src={{item.friend.photoURL}} alt="pop">
                                 </div>
+                            </div> -->
+                            <h3 class="text-center mt-1">Friends</h3>
+
+                            <!-- <div routerLink="chat" (click)="joinRoom(item.room)" class="notMoblie--friend card">
+                            <img src={{item.friend.photoURL}} alt="pop">
+                            <p style="margin-left: 2%;">
+
+                                {{item.friend.displayName}}
+                            </p>
+                        </div> -->
+                            <div *ngFor="let item of data.friends">
+                                <div class="card p-1 hover-card m-1 justify-content-center"
+                                    style="cursor:pointer;height: 100px;">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col" routerLink="chat"
+                                        (click)="joinRoom(item.room)">
+                                            <img class="rounded-circle w-100" src={{item.friend.photoURL}} alt="user">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <hr />
+                        <h3 class="text-center">Group</h3>
                         <div *ngIf="data.groups.length>0">
-                            Group
-                            <div *ngFor="let g of data.groups" >
+                            <!-- Group
+                            <div *ngFor="let g of data.groups">
                                 <div routerLink="chat" (click)="joinRoom(g._id)" class="notMoblie--groups">
-                                    <img src={{g.photoURL}} alt="pop" >
+                                    <img src={{g.photoURL}} alt="pop">
+                                </div>
+                            </div> -->
+                            <div *ngFor="let g of data.groups">
+                                <!-- <div routerLink="chat" (click)="joinRoom(g._id)" class="notMoblie--groups">
+                                    <img src={{g.photoURL}} alt="pop">
+                                    <p style="margin-left: 2%;">
+    
+                                        {{g.name}}
+                                    </p>
+                                </div> -->
+                                <div class="card p-1 hover-card m-1 justify-content-center"
+                                    style="cursor:pointer;height: 100px;">
+                                    <div class="row no-gutters align-items-center h-100" routerLink="chat"
+                                        (click)="joinRoom(g._id)">
+                                        <div class="col" style="height: 100%;">
+                                            <div [ngStyle]="{'background-image': 'url(' + g.photoURL + ') '}"
+                                                style="height: auto;"
+                                                class=" w-100 h-100 rounded-circle background-size:100%;"></div>
+                                            <!-- <img style="height: 4rem;" class="w-100 rounded-circle img-fluid"   src={{g.photoURL}} alt="user"> -->
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div style="justify-self: end;">
-                        <div style="justify-content: center;display: flex
-                            ;cursor: pointer;">
-                            <img style="border: 0.1px solid black;border-radius: 100%;height: 4rem;"
-                                src={{data.photoURL}} alt="pop">
+                        <div class="d-flex flex-column align-items-center">
+
+                            <button class="btn"><i class="fa fa-cog fa-lg"></i></button>
+                            <div class="d-flex align-items-center">
+                                <app-search [_id]="data._id" [data]="data"></app-search>
+
+
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <app-friendreq [req]="data.req" [_id]="data._id"></app-friendreq>
+
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <app-create-group [data]="data"></app-create-group>
+                            </div>
+
+                            <div style="justify-content: center;display: flex;cursor: pointer;">
+                                <img style="border-radius: 100%;height: 4rem;" src={{data.photoURL}} alt="pop">
+                            </div>
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div style="width: 100%;height: 100%;">
+            <div *ngIf="!shareSer.menuMoblie"
+                style="width: 100%;height: 100%;background-color: rgba(0,0,0,.32);position: fixed;z-index: 100; transition: ease 400ms;">
+
+            </div>
+            <div style="width: 100%;height: 100%">
                 <router-outlet></router-outlet>
             </div>
         </div>
     </div>
 
 </div>
-<div *ngIf="!loadData">
-    Loading...
-</div>
+<!-- <div >
+    
+</div> -->
+
 <!-- <div style="border: 1px solid red;height: 100%;">
     <div style="height: 90%">
         <h1>Current user:{{data.displayName}}</h1>

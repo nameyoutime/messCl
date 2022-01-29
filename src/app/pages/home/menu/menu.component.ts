@@ -9,13 +9,13 @@ import { ShareService } from 'src/app/services/share.service';
 export class MenuComponent implements OnInit {
   @Input() isMoblie: any;
 
-  constructor(private shareSer:ShareService) { }
+  constructor(public shareSer:ShareService) { }
 
   ngOnInit(): void {
   }
   doClick(){
     if(this.isMoblie){
-      console.log("open friend list");
+      // console.log("open friend list");
       this.shareSer.setMenuMoblie();
     }else{
       this.shareSer.setMenu();

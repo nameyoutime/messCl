@@ -1,2 +1,12 @@
-<button (click)="doClick()">{{isMoblie}}</button>
-
+<button *ngIf="shareSer.menu&&!isMoblie" (click)="doClick()"
+    style="border: none;background: none;position: fixed;top: 0;left: 0;border-radius: 100%;"><i
+        class="fa fa-chevron-left"></i></button>
+<button *ngIf="!shareSer.menu&&!isMoblie" (click)="doClick()"
+    style="border: none;background: none;position: fixed;top: 0;left: 0;border-radius: 100%;"><i
+        class="fa fa-chevron-right"></i></button>
+        <button *ngIf="shareSer.menuMoblie&&isMoblie" (click)="doClick()"
+    style="border: none;background: none;position: fixed;top: 0;left: 0;border-radius: 100%;"><i
+        class="fa fa-chevron-left"></i></button>
+<button *ngIf="!shareSer.menuMoblie&&isMoblie" (click)="doClick()"
+    style="border: none;background: none;position: fixed;top: 0;left: 0;border-radius: 100%;"><i
+        class="fa fa-chevron-right"></i></button>

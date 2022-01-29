@@ -11,8 +11,8 @@ body {
 }
 /* width */
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 1px;
+    height: 1px;
 	background-color: #F5F5F5;
     
 }
@@ -26,17 +26,32 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background-color: #7c7c7c;
+    background-color: black;
     border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background-color: #313131;
-
+    
 }
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 @import '~@ctrl/ngx-emoji-mart/picker';
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "~ngx-bootstrap/datepicker/bs-datepicker";
+.cdk-overlay-container {
+    z-index: 999999999 !important;
+}
+.mat-dialog-container {
+    padding: 0px !important;
+}
+.custom-modalbox{
+    max-width: 80vw;
+    max-height: 80vh;
+}

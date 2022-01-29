@@ -58,7 +58,7 @@ router.put('/deleteUser', async (req, res) => {
 router.put('/update/:id', async (req, res) => {
     let id = req.params.id;
     let { data } = req.body;
-    let result = await RoomDB.findByIdAndUpdate({ _id: id }, data)
+    let result = await RoomDB.findByIdAndUpdate({ _id: id }, data);
     // console.log(result);
     // let data = await RoomDB.find();
     res.send({ data: result });

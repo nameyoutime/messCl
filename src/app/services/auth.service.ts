@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
+import { Router } from '@angular/router';
 import firebase from '@firebase/app-compat';
 import { Observable } from 'rxjs';
 import { mergeMap, filter, catchError } from 'rxjs/operators'
@@ -18,7 +19,7 @@ export class AuthService {
   public changeUser: EventEmitter<any> = new EventEmitter();
   public updatedUser: EventEmitter<any> = new EventEmitter();
 
-  constructor(private afAuth: AngularFireAuth, private http: HttpClient, private socket: WebsocketService) {
+  constructor(private router: Router,private afAuth: AngularFireAuth, private http: HttpClient, private socket: WebsocketService) {
     this.checkUser();
   }
 
@@ -61,7 +62,7 @@ export class AuthService {
         // socket emmit join  with uid
         console.log("join with uid:", this.uid);
         this.socket.emit('user-join', this.uid);
-
+        
         this.getUser(this.uid).subscribe((data: any) => {
           this.user = data.data[0];
         })
@@ -113,6 +114,7 @@ export class AuthService {
   async loginWithGoogle() {
     const dataUser: any = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     // console.log(dataUser.user.uid);
+    
     this.checkExists(dataUser.user.uid).pipe(
       filter(data => data.count == 0),
       mergeMap((data: any) => {
@@ -134,9 +136,11 @@ export class AuthService {
       // console.log(data);
       localStorage.setItem('uid', dataUser.user.uid);
       this.uid = dataUser.user.uid;
-
+      
+      
     })
 
+    
 
     // this.checkExists(dataUser.user.uid).subscribe((data: any) => {
     //   if (data.count == 0) {
@@ -160,6 +164,7 @@ export class AuthService {
   async logout() {
     await this.afAuth.signOut().then(() => {
       localStorage.removeItem('uid');
+      this.router.navigate(['./auth/login']);
     });
   }
 }

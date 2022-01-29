@@ -8,9 +8,9 @@ import { FriendreqComponent } from './friendreq/friendreq.component';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
-import { NoneComponent } from './none/none.component';
 import { MenuComponent } from './menu/menu.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
+import { NoneComponent } from './none/none.component';
 
 
 
@@ -23,9 +23,10 @@ import { CreateGroupComponent } from './create-group/create-group.component';
     FriendListComponent,
     FriendreqComponent,
     SearchComponent,
-    NoneComponent,
+
     MenuComponent,
     CreateGroupComponent,
+    NoneComponent,
 
 
     // ChatMainComponent

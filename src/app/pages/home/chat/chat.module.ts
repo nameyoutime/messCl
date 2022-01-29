@@ -13,14 +13,14 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { GetDatePipe } from '../../../pipes/get-date.pipe';
-
 @NgModule({
   declarations: [
     ChatComponent,
     ChatMainComponent,
     LinebreakPipe,
     SideChatComponent,
-    GetDatePipe
+    GetDatePipe,
+
   ],
   imports: [
     CommonModule,

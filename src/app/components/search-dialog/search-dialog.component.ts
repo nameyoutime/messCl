@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { mergeMap, filter, catchError, take, toArray } from 'rxjs/operators'
 import { WebsocketService } from 'src/app/services/websocket.service';
 import { iif } from 'rxjs';
+import { ShareService } from 'src/app/services/share.service';
 
 @Component({
   selector: 'app-search-dialog',
@@ -16,7 +17,8 @@ export class SearchDialogComponent implements OnInit {
     private socket: WebsocketService,
     public dialogRef: MatDialogRef<SearchDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private authSer: AuthService
+    private authSer: AuthService,
+    private shareSer:ShareService
   ) { }
   result: any;
   email: string = '';
@@ -44,9 +46,9 @@ export class SearchDialogComponent implements OnInit {
       toArray(),
     ).subscribe(data => {
       if (data.length == 0) {
-        alert(`already send friend request to ${user.displayName}`);
+        this.shareSer.openSnackBar(`already send friend request to ${user.displayName}`,false);
       } else if (data.length > 0) {
-        alert(`send friend request to ${user.displayName}`);
+        this.shareSer.openSnackBar(`send friend request to ${user.displayName}`);
         this.socket.emit("touch", user.uid);
       }
     })

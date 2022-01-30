@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 const importModule = [
@@ -20,7 +21,8 @@ const importModule = [
 
 ]
 const materialModule = [
-  MatDialogModule
+  MatDialogModule,
+  MatSnackBarModule
 ]
 const exportModule = [
 

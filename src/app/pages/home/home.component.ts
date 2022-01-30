@@ -120,5 +120,9 @@ export class HomeComponent implements OnInit {
       this.isMoblie = false;
     }
   }
-
+  logout(){
+    this.authSer.logout().then(()=>{
+      this.shareSer.openSnackBar("Logout success!");
+    })
+  }
 }

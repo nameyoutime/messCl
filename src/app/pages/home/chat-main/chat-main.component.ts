@@ -235,7 +235,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
         (result: DataUrl) => {
           let img = this.imageCompress.byteCount(result);
           if (img >= this.maxImgSizeValue) {
-            alert("file is larger than " + this.maxImgSizeValue / 1000 + "kb");
+            this.shareSer.openSnackBar("file is larger than " + this.maxImgSizeValue / 1000 + "kb",false);
           } else {
             this.sendImg(result);
           }
@@ -247,15 +247,15 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   add() {
     this.addMore = true;
     this.count++;
-
+    // console.log(this.room);
     if (this.room == null) {
-      alert("error when getting data;");
+      this.shareSer.openSnackBar("Out of messages!",false);
       return;
     }
     this.roomSer.getMessage(this.room, this.count).subscribe((data: any) => {
       let arr = data.data;
       if (arr.length == 0) {
-        alert("out of data");
+        this.shareSer.openSnackBar("Out of messages!",false);
       }
       for (let i = 0; i < arr.length; i++) {
         this.messages.unshift(arr[i]);

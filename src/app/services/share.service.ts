@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +11,24 @@ export class ShareService {
   public menuMoblieUpdated: EventEmitter<any> = new EventEmitter();
   public isMoblie: boolean = false;
   public darkMode: boolean = true;
-
-  constructor() {
+  private defautlSnackBarConfig: MatSnackBarConfig =
+    {
+      horizontalPosition: 'end', verticalPosition: 'top',
+      duration: 1 * 1000,
+      panelClass: ['white-snackbar']
+    };
+  private defaultSnackBarAction: string = "close";
+  constructor(private snackBar: MatSnackBar) {
 
   }
 
   setMenu() {
     this.menu = !this.menu;
     this.menuUpdated.emit(this.menu);
-    // console.log(this.menu);
   }
   setMenuMoblie() {
     this.menuMoblie = !this.menuMoblie;
     this.menuMoblieUpdated.emit(this.menuMoblie);
-    // console.log(this.menu);
   }
   formatDate(val: number, minLength: number) {
     let result = (val).toString();
@@ -59,7 +64,12 @@ export class ShareService {
     }
     return low;
   }
-
+  openSnackBar(message: string, isSuscess: boolean = true, action = this.defaultSnackBarAction, config: MatSnackBarConfig = this.defautlSnackBarConfig) {
+    if(!isSuscess){
+      this.defautlSnackBarConfig.panelClass = ['red-snackbar'];
+    }
+    this.snackBar.open(message, action, config);
+  }
 
 
 }

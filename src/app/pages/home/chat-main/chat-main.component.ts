@@ -89,7 +89,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
       let index = this.messages.findIndex(item => item._id == data);
       let indexRe = this.messages.findIndex(item => item.reply?._id == data);
       if (indexRe !== -1) {
-        this.messages[indexRe].reply = {};
+        this.messages[indexRe].reply = null;
       }
       this.messages.splice(index, 1);
     })
@@ -102,7 +102,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     let index = this.messages.findIndex(item => item._id == value);
     let indexRe = this.messages.findIndex(item => item.reply?._id == value);
     if (indexRe !== -1) {
-      this.messages[indexRe].reply = {};
+      this.messages[indexRe].reply = null;
     }
     this.messages.splice(index, 1);
     this.socket.emit('delete', { room: this.roomSer.currentRoom, data: value })
@@ -201,6 +201,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
           this.isGroup = true;
           this.currentAvatar = data;
         }
+
       })
       this.roomSer.getMessage(value, this.count).subscribe((dataRoom: any) => {
         let arr = dataRoom.data;
@@ -209,7 +210,6 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
           this.messages.push(arr[arr.length - i - 1]);
         }
         this.loading = true;
-        // console.log(this.messages);
         setTimeout(() => {
           this.scrollToBottom();
         }, 500);

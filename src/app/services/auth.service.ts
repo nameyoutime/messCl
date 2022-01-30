@@ -38,8 +38,6 @@ export class AuthService {
   }
 
   updateUser() {
-    // let temp = this.user;
-    // console.log(this.user);
     this.updatedUser.emit("he");
   }
 

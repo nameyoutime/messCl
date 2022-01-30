@@ -9,6 +9,7 @@ export class LinebreakPipe implements PipeTransform {
     return this.change(data.input, data.breakpoint);
   }
   change(a: any, limit: any) {
+    // console.log(a);
     if (a == undefined) {
       return "text not found";
     }

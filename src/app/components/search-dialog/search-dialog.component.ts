@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { mergeMap, filter, catchError, take, toArray } from 'rxjs/operators'
 import { WebsocketService } from 'src/app/services/websocket.service';
+import { iif } from 'rxjs';
 
 @Component({
   selector: 'app-search-dialog',
@@ -12,7 +13,7 @@ import { WebsocketService } from 'src/app/services/websocket.service';
 export class SearchDialogComponent implements OnInit {
 
   constructor(
-    private socket:WebsocketService,
+    private socket: WebsocketService,
     public dialogRef: MatDialogRef<SearchDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authSer: AuthService
@@ -22,14 +23,19 @@ export class SearchDialogComponent implements OnInit {
   public _id: any = this.data._id;
   public userData: any = this.data.data;
   ngOnInit(): void {
-    console.log(this.userData.friends.length);
+    this.get();
   }
-  sendFriend(_id: string,user:any) {
+
+  get() {
+    this.socket.on('renderF').subscribe(() => {
+      this.dialogRef.close();
+    })
+  }
+  async sendFriend(_id: string, user: any) {
     let temp = {
       from: this._id,
       to: _id
     }
-    // console.log(temp);
     this.authSer.checkSendReq(temp).pipe(
       filter(data => data.count == 0),
       mergeMap((data: any) => {
@@ -37,14 +43,13 @@ export class SearchDialogComponent implements OnInit {
       }),
       toArray(),
     ).subscribe(data => {
-      if(data.length==0){
+      if (data.length == 0) {
         alert(`already send friend request to ${user.displayName}`);
-      }else if(data.length>0){
+      } else if (data.length > 0) {
         alert(`send friend request to ${user.displayName}`);
-        this.socket.emit("touch",user.uid);
+        this.socket.emit("touch", user.uid);
       }
     })
-    // await this.authSer.sendFriendReq(temp).toPromise();
   }
 
   async updateMesssages() {
@@ -53,10 +58,6 @@ export class SearchDialogComponent implements OnInit {
     if (keyword.length > 1) {
       let data = await this.authSer.searchUser(keyword).toPromise();
       this.result = data.result;
-      // this.authSer.searchUser(this.email).subscribe((data:any) => {
-      //   this.result = data.result;
-      // });
-      this.email = '';
     }
   }
 

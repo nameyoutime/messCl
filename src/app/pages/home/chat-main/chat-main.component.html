@@ -1,7 +1,9 @@
 <div *ngIf="!firstLoad" class="border w-100 h-100 page-wrap d-flex flex-row align-items-center">
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
+                <span class="display-1 d-block">Selected none</span>
                 <span class="display-3 d-block">Selected none</span>
                 <div class="mb-4 lead">You have not selected nothing.</div>
                 <div class="mb-4 lead">No messages have selected at the moment.</div>
@@ -9,14 +11,16 @@
         </div>
     </div>
 </div>
+
 <div *ngIf="!loading &&firstLoad" class="border w-100 h-100 d-flex justify-content-center align-items-center">
     <div class="spinner-border" style="width: 5rem; height: 5rem;" role="status">
         <span class="sr-only">Loading...</span>
     </div>
 </div>
 <div *ngIf="loading && firstLoad" class="border">
+
     <div class="screen">
-        <div class="menuTop" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);" >
+        <div class="menuTop" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125);">
             <div id="avatar" *ngIf="currentAvatar">
                 <div>
                     <img src={{currentAvatar.photoURL}} alt="as">
@@ -25,36 +29,57 @@
                 </div>
             </div>
             <div id="addMenu" *ngIf="currentAvatar">
-            
-                <button *ngIf="currentAvatar.isGroup" style="cursor: pointer;border-radius: 500px;border: none;" type="button" class="btn btn-outline-dark btn-sm btn-rounded" (click)="openGroupMenu()"><i class="fa fa-cog"></i></button>
+                <!-- <button *ngIf="!currentAvatar.isGroup" style="cursor: pointer;border-radius: 500px;border: none;"
+                    type="button" class="btn btn-outline-dark btn-sm btn-rounded"><i class="fa fa-cog"></i></button> -->
+
+                <button *ngIf="currentAvatar.isGroup" style="cursor: pointer;border-radius: 500px;border: none;"
+                    type="button" class="btn btn-outline-dark btn-sm btn-rounded" (click)="openGroupMenu()"><i
+                        class="fa fa-cog"></i></button>
+
             </div>
+
         </div>
         <div class="conversation" #scrollMe>
             <div id="addDiv">
-                <button type="button" class="btn btn-outline-dark btn-sm" (click)="add()" style="cursor: pointer;">More</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" (click)="add()"
+                    style="cursor: pointer;">More</button>
             </div>
             <div *ngFor="let item of messages">
+
                 <div *ngIf="authSer.uid==item.user?.uid" class="messages messages--sent">
-                    <div *ngIf="isMoblie&&item.reply">
-                        <div *ngIf="item.reply.text" class="moblie--sendReply">
+                    <!-- reply -->
+                    <div *ngIf="isMoblie&&item.reply!==undefined">
+                        <div *ngIf="!item.reply" class="moblie--sendReply">
+                            Message deleted
+                        </div>
+                        <div *ngIf="item.reply!==null&&item.reply.text" class="moblie--sendReply">
                             {{{input:item.reply.text,breakpoint:20}|linebreak}}
                         </div>
-                        <div *ngIf="item.reply.image" class="moblie--imgSendReply">
+                        <div *ngIf="item.reply!==null&&item.reply.image" class="moblie--imgSendReply">
                             <img class="moblie--imgReply" src={{item.reply.image}} alt="img"
                                 (click)="openImageDialog(item.reply.image)">
-                    </div>
-                    <div *ngIf="!isMoblie&&item.reply">
-                        <div *ngIf="item.reply.text" class="notMoblie--sendReply">
-                            {{{input:item.reply.text,breakpoint:30}|linebreak}}
+
                         </div>
-                        <div *ngIf="item.reply.image" class="notMoblie--imgSendReply">
+                    </div>
+                    <div *ngIf="!isMoblie&&item.reply!==undefined">
+                        <div *ngIf="!item.reply" class="notMoblie--sendReply">
+                            Message deleted
+                        </div>
+                        <div *ngIf="item.reply!==null&&item.reply.text" class="notMoblie--sendReply">
+                            {{{input:item.reply.text,breakpoint:30}|linebreak}}
+                            
+                        </div>
+                        <div *ngIf="item.reply!==null&&item.reply.image" class="notMoblie--imgSendReply">
                             <img src={{item.reply.image}} alt="img" (click)="openImageDialog(item.reply.image)">
                         </div>
                     </div>
                     <div>
                         <ng-template #elseSending>
                             <div style="z-index: 1;">
-                                <app-side-chat [item]='item' (replyEvent)="replyClick($event)" (deleteEvent)="deleteClick($event)"></app-side-chat>
+
+                                <!-- <app-side-chat [item]='item' (replyEvent)="replyClick($event)"></app-side-chat> -->
+                                <app-side-chat [item]='item' (replyEvent)="replyClick($event)"
+                                    (deleteEvent)="deleteClick($event)"></app-side-chat>
                             </div>
                         </ng-template>
                         <div class="sending" *ngIf="item.status==false;else elseSending" style="visibility: initial;">
@@ -81,10 +106,13 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div *ngIf="authSer.uid!==item.user?.uid" class="messages messages--received">
+                    <!-- reply -->
                     <div *ngIf="isMoblie&&item.reply">
                         <div style="margin-left: 40px;">
+
                             <div *ngIf="item.reply.text" class="moblie--reciveReply">
                                 {{{input:item.reply.text,breakpoint:20}|linebreak}}
                             </div>
@@ -139,7 +167,8 @@
                         <div>
                             {{{input:reply.text,breakpoint:30}|linebreak}}
                         </div>
-                        <button class="btn btn-outline-danger btn-sm btn-rounded" style="height: fit-content;" (click)="reply = {}">
+                        <button class="btn btn-outline-danger btn-sm btn-rounded" style="height: fit-content;"
+                            (click)="reply = {}">
                             <i class="fa fa-trash fa-lg"></i>
                         </button>
                     </div>
@@ -149,7 +178,8 @@
                         <div>
                             {{{input:reply.text,breakpoint:20}|linebreak}}
                         </div>
-                        <button class=" btn btn-outline-danger btn-sm btn-rounded" style="height: fit-content;"  (click)="reply = {}">
+                        <button class=" btn btn-outline-danger btn-sm btn-rounded" style="height: fit-content;"
+                            (click)="reply = {}">
                             <i class="fa fa-trash fa-lg"></i>
                         </button>
                     </div>
@@ -159,8 +189,10 @@
                     <div style="display: flex;justify-content: space-between;align-items: center;padding: 0 1rem;">
                         <div>
                             <img style="max-width: 100px;border-radius: 15px;" src={{reply.image}} alt="img">
+
                         </div>
-                        <button class="btn btn-outline-danger btn-sm btn-rounded" style="height: fit-content;" style="height: 50%;" (click)="reply = {}">
+                        <button class="btn btn-outline-danger btn-sm btn-rounded" style="height: fit-content;"
+                            style="height: 50%;" (click)="reply = {}">
                             <i class="fa fa-trash fa-lg"></i>
                         </button>
                     </div>
@@ -170,15 +202,17 @@
                         <div>
                             <img style="max-width: 100px;border-radius: 15px;" src={{reply.image}} alt="img">
                         </div>
-                        <button class="btn btn-outline-danger btn-sm btn-rounded"style="height: fit-content;" style="height: 50%;" (click)="reply = {}">
+                        <button class="btn btn-outline-danger btn-sm btn-rounded" style="height: fit-content;"
+                            style="height: 50%;" (click)="reply = {}">
                             <i class="fa fa-trash fa-lg"></i>
                         </button>
                     </div>
                 </div>
             </div>
+
             <div style="display: flex;height:100%">
                 <div class="text-bar__field">
-                    <textarea  class="form-control" type="text" [(ngModel)]="text" placeholder="Type your text here..."
+                    <textarea class="form-control" type="text" [(ngModel)]="text" placeholder="Type your text here..."
                         (keyup.enter)="sendMessage()" style="width: 100%;text-align: center;"></textarea>
                 </div>
                 <div *ngIf="showEmojiPicker" style="position: fixed;bottom: 6%;right: 1%;z-index: 10;">
@@ -187,19 +221,23 @@
                 </div>
                 <div class="buttonText">
                     <div>
-                        <button style="cursor: pointer;border-radius: 500px;border: none;" (click)="toggleEmojiPicker()" class="btn btn-outline-dark btn-sm btn-rounded">😀
+                        <button style="cursor: pointer;border-radius: 500px;border: none;" (click)="toggleEmojiPicker()"
+                            class="btn btn-outline-dark btn-sm btn-rounded">😀
                         </button>
                     </div>
                 </div>
                 <div class="buttonText">
                     <div>
-                        <button style="cursor: pointer;border-radius: 500px;border: none;" (click)="uploadMultipleFiles()" class="btn btn-outline-dark btn-sm btn-rounded"><i class="fa fa-image fa-lg"></i>
+                        <button style="cursor: pointer;border-radius: 500px;border: none;"
+                            (click)="uploadMultipleFiles()" class="btn btn-outline-dark btn-sm btn-rounded"><i
+                                class="fa fa-image fa-lg"></i>
                         </button>
                     </div>
                 </div>
                 <div class="buttonText">
                     <div>
-                        <button style="cursor: pointer;border-radius: 500px;border: none;" (click)="sendMessage()" class="btn btn-outline-dark btn-sm btn-rounded"><i class="fa fa-paper-plane fa-lg"></i>
+                        <button style="cursor: pointer;border-radius: 500px;border: none;" (click)="sendMessage()"
+                            class="btn btn-outline-dark btn-sm btn-rounded"><i class="fa fa-paper-plane fa-lg"></i>
                         </button>
                     </div>
                 </div>

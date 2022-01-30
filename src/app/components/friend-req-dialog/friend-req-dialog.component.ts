@@ -9,8 +9,8 @@ import { WebsocketService } from 'src/app/services/websocket.service';
   styleUrls: ['./friend-req-dialog.component.scss']
 })
 export class FriendReqDialogComponent implements OnInit {
-  
-  constructor(private socket:WebsocketService,
+
+  constructor(private socket: WebsocketService,
     public dialogRef: MatDialogRef<FriendReqDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private authSer: AuthService
@@ -21,45 +21,42 @@ export class FriendReqDialogComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  denied(_id: string,index:number,user:any) {
+  denied(_id: string, index: number, user: any) {
     let temp = {
       currId: this._id,
       _id: _id
     }
-    
-    
-    // delete this.req[index];
-    // let resut = temp1.slice(3,1)
+
     this.req.splice(index, 1);
-
-
-    // console.log(temp1);
     this.authSer.deniedReq(temp).subscribe((data: any) => {
-      console.log(data);
+      // console.log(data);
+      // this.authSer.updateUser();
+      // this.socket.emit("touch", user.uid);
     })
   }
-  accept(_id: string,index:number,user:any) {
+  async accept(_id: string, index: number, user: any) {
     let temp = {
       user: [
         this._id, _id
       ],
       message: []
     }
+    let data = await this.authSer.createRoom(temp).toPromise();
+    let temp1 = {
+      from: this._id,
+      to: _id,
+      room: data.data._id
+    }
+    this.req.splice(index, 1);
 
-    this.authSer.createRoom(temp).subscribe(data => {
-      let temp1 = {
-        from: this._id,
-        to: _id,
-        room: data.data._id
-      }
-      this.authSer.acceptReq(temp1).subscribe((data: any) => {
-        // console.log(data);
-        this.socket.emit("touch",user.uid);
-
-        this.denied(_id,index,user);
-        this.authSer.updateUser();
-      })
-    })
+    await this.authSer.acceptReq(temp1).toPromise();
+    await this.authSer.deniedReq({
+      currId: this._id,
+      _id: _id
+    }).toPromise();
+    this.authSer.updateUser();
+    this.socket.emit("touch", user.uid);
+    this.socket.emit("acceptF", user.uid);
   }
 
 }

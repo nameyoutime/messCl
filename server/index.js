@@ -19,6 +19,9 @@ io.on('connection', (socket) => {
   socket.on('touch', data => {
     socket.to(data).emit("render","a");
   })
+  socket.on('acceptF', data => {
+    socket.to(data).emit("renderF","a");
+  })
   socket.on('delete', val => {
     socket.to(val.room).emit("deleteMess",val.data);
   })

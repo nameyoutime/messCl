@@ -3,4 +3,4 @@
 
 .vercel
 
-src/config.js
+.env

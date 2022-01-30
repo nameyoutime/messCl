@@ -48,5 +48,3 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
-
-server/src/config.js

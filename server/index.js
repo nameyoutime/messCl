@@ -17,12 +17,12 @@ main()
 io.on('connection', (socket) => {
   // console.log("user id:", socket.id);
   socket.on('touch', data => {
-    // socket.leave(data);
-    // console.log(data);
     socket.to(data).emit("render","a");
   })
+  socket.on('delete', val => {
+    socket.to(val.room).emit("deleteMess",val.data);
+  })
   socket.on('user-join', data => {
-    // console.log(data);
     socket.join(data);
   })
   socket.on('user-leave', data => {
@@ -34,7 +34,6 @@ io.on('connection', (socket) => {
   socket.on('leave', room => {
     socket.leave(room);
   })
-
   socket.on("message",data=>{
     let room = data.room;
     let payload = data.data;

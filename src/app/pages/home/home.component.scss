@@ -72,6 +72,10 @@
     transition: ease 400ms;
 }
 
+.selected-card{
+    background-color:#b8b8b8;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
 .moblie {
     &--main {
         position: fixed;

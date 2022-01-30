@@ -2,10 +2,8 @@ const app = require('express');
 let mongoose = require('mongoose');
 const router = app.Router();
 
-
 const userSchema = require('../../schemas/user.schemas');
 const UserDB = mongoose.model('User', userSchema);
-
 
 router.get('/', async (req, res) => {
     let data = await UserDB.find();
@@ -43,11 +41,9 @@ router.put('/acceptReq', async (req, res) => {
 })
 router.put('/deleteGroup', async (req, res) => {
     let { data } = req.body;
-    // console.log(data);
     let result = await UserDB.findOneAndUpdate({ _id: data.user },
         { $pull: { groups: data.room } }
     )
-    // console.log
     res.send({ result: "done" });
 })
 
@@ -73,7 +69,6 @@ router.get('/checkSend', async (req, res) => {
 router.get('/chat', async (req, res) => {
     let { skip, limit } = req.query;
     console.log(skip, limit);
-    // let count = await UserDB.findById(to).countDocuments({req:from});
     res.send({ count: 'count' });
 })
 router.get('/:id', async (req, res) => {
@@ -86,19 +81,14 @@ router.delete('/:id', async (req, res) => {
     let result = await UserDB.findByIdAndRemove(id);
     res.send({ data: result });
 })
-
 router.get('/uid/:uid', async (req, res) => {
     let uid = req.params.uid;
     let data = await UserDB.find({ uid: uid }).populate("req").populate("friends.friend").populate("groups");
     res.send({ data: data })
 })
-
-
 router.get('/checkUid/:uid', async (req, res) => {
     let uid = req.params.uid;
     let count = await UserDB.countDocuments({ uid: uid });
     res.send({ count: count });
 })
-
-
 module.exports = router;

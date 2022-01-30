@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
   public room: any = null;
   public innerWidth: any;
   public isMoblie: boolean = false;
-
+  public selected: any = '';
   constructor(private socket: WebsocketService, public shareSer: ShareService, private authSer: AuthService, private afAuth: AngularFireAuth, private roomSer: RoomService) {
     this.afAuth.authState.subscribe((user: any) => {
       if (user) {
@@ -86,11 +86,8 @@ export class HomeComponent implements OnInit {
       }
     })
     this.authSer.updatedUser.subscribe(() => {
-      // localStorage.setItem('uid', this.uid);
-      // this.uid = user.uid;
       this.authSer.getUser(this.uid).subscribe(data => {
         this.data = data.data[0];
-        // this.loadData = true;
       })
     })
     socket.on('render').subscribe(() => {
@@ -100,11 +97,8 @@ export class HomeComponent implements OnInit {
     })
   }
   joinRoom(value: any) {
-    // this.room = value;
-    // console.log(value);
+    this.selected = value;
     this.roomSer.setCurrentRoom(value);
-    // console.log(value);
-
   }
 
 
@@ -112,8 +106,6 @@ export class HomeComponent implements OnInit {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth <= 425) {
       this.isMoblie = true;
-      // console.log(this.isMoblie);
-      // console.log("moblie");
     } else {
       this.isMoblie = false;
 
@@ -123,12 +115,9 @@ export class HomeComponent implements OnInit {
   onResize(event: any) {
     this.innerWidth = window.innerWidth;
     if (this.innerWidth <= 425) {
-      // console.log("moblie");
       this.isMoblie = true;
-
     } else {
       this.isMoblie = false;
-
     }
   }
 

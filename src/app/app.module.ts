@@ -16,6 +16,7 @@ import { ImageDialogComponent } from './components/image-dialog/image-dialog.com
 import { CreateGroupDialogComponent } from './components/create-group-dialog/create-group-dialog.component';
 import { NgxImageCompressService } from "ngx-image-compress";
 import { GroupMenuDialogComponent } from './components/group-menu-dialog/group-menu-dialog.component';
+import { ConfirmDelDialogComponent } from './components/confirm-del-dialog/confirm-del-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { GroupMenuDialogComponent } from './components/group-menu-dialog/group-m
     ImageDialogComponent,
     CreateGroupDialogComponent,
     GroupMenuDialogComponent,
+    ConfirmDelDialogComponent,
   ],
   imports: [
     BrowserAnimationsModule,

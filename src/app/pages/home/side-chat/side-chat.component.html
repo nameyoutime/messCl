@@ -1,2 +1,2 @@
 <button (click)="clickReply()" style="border: none;border-radius: 100px;"><i class="fa fa-reply"></i></button>
-<button style="border: none;border-radius: 100px;"><i class="fa fa-trash"></i></button>
+<button *ngIf="item.user.uid==uid" (click)="openDialog(item._id)" style="border: none;border-radius: 100px;"><i class="fa fa-trash"></i></button>

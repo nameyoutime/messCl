@@ -4,6 +4,11 @@ const router = app.Router();
 
 const messSchema = require('../../schemas/message.shemas');
 const MessDB = mongoose.model('Message', messSchema);
+router.delete('/:id',async (req,res)=>{
+    let id = req.params.id;
+    let result = await MessDB.findByIdAndRemove(id);
+    res.send({ res: "ok" })
+})
 router.get('/chat', (req, res) => {
     let { room, limit, count } = req.query;
     limit = parseInt(limit);
@@ -33,24 +38,13 @@ router.get('/chat', (req, res) => {
         res.send({ data: data })
     })();
 })
-
-// router.get('/:id', async (req, res) => {
-//     let id = req.params.id;
-//     let data = await RoomDB.findById(id);
-//     res.send({ data: data })
-// })
-
-
-
 router.post('/chat', async (req, res) => {
     let { data } = req.body;
     let payload = {
         ...data,
         date:Date.now()
     }
-    // console.log(payload);
     let result = new MessDB(payload);
-    // console.log(result);
     result.save();
     result = await result.populate("user");
     result = await result.populate('reply');

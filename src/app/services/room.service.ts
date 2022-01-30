@@ -62,6 +62,9 @@ export class RoomService {
   createGroup(payload:any):Observable<any>{
     return this.http.post(environment.endpoint+"room",{room:payload});
   }
+  deleteMessage(id: string): Observable<any> {
+    return this.http.delete(environment.endpoint + `mess/${id}`);
+  }
 
 
 

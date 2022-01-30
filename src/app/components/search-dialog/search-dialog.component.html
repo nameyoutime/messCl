@@ -1,42 +1,30 @@
-<!-- <input type="text" (keyup.enter)="updateMesssages()" [(ngModel)]="email"> <button
-    (click)="updateMesssages()">Search</button> -->
+<div class="p-3">
 
-<div class="input-group input-group-sm mb-3">
-    <input (keyup.enter)="updateMesssages()" [(ngModel)]="email" type="text" class="form-control" aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm">
-    <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary" type="button" (click)="updateMesssages()">Search</button>
-    </div>
-</div>
-<!-- <h1 *ngFor="let user of result">
-    <img src={{user.photoURL}} alt="a">
-    {{user.displayName}}
-    <p *ngIf="user._id==_id">(YOU)</p>
-    <button *ngIf="user._id!==_id&&({_id:user._id,userData:userData}|alreadyFriend)==-1"
-        (click)="sendFriend(user._id,user)">Send friends</button>
-    <p *ngIf="({_id:user._id,userData:userData}|alreadyFriend)==0">(Already Friend)</p>
-</h1> -->
-
-<ul class="list-group" style="max-height: 50vh;overflow-y: scroll;" >
-    <li class="list-group-item list-group-item-action" *ngFor="let user of result">
-        <div class="row no-gutters align-items-center">
-            <div class="col-3">
-                <img class="rounded-circle w-100"
-                    src={{user.photoURL}}
-                    alt="user">
-            </div>
-            <div class="col-9 d-flex flex-column  align-items-center">
-                <p>{{user.displayName}}</p>
-                <p *ngIf="user._id==_id">(YOU)</p>
-                <button class="ml-1 btn btn-outline-secondary btn-sm" type="button" *ngIf="userData.friends.length==0&&user._id!==_id"
-                (click)="sendFriend(user._id,user)">Send request</button>
-                <button class="ml-1 btn btn-outline-secondary btn-sm" type="button" *ngIf="userData.friends.length!=0&&user._id!==_id&&({_id:user._id,userData:userData}|alreadyFriend)==-1"
-                (click)="sendFriend(user._id,user)">Send request</button>
-
-                <p *ngIf="(userData.friends.length!=0&&{_id:user._id,userData:userData}|alreadyFriend)==0">(Already Friend)</p>
-            </div>
+    <div class="input-group input-group-sm mb-3">
+        <input (keyup.enter)="updateMesssages()" [(ngModel)]="email" type="text" class="form-control" aria-label="Small"
+            aria-describedby="inputGroup-sizing-sm">
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary" type="button" (click)="updateMesssages()">Search</button>
         </div>
-    </li>
-
-
-</ul>
+    </div>
+    <ul class="list-group" style="max-height: 50vh;overflow-y: scroll;" >
+        <li class="list-group-item list-group-item-action" *ngFor="let user of result">
+            <div class="row no-gutters align-items-center">
+                <div class="col-3">
+                    <img class="rounded-circle w-100"
+                        src={{user.photoURL}}
+                        alt="user">
+                </div>
+                <div class="col-9 d-flex flex-column  align-items-center">
+                    <p>{{user.displayName}}</p>
+                    <p *ngIf="user._id==_id">(YOU)</p>
+                    <button class="ml-1 btn btn-outline-secondary btn-sm" type="button" *ngIf="userData.friends.length==0&&user._id!==_id"
+                    (click)="sendFriend(user._id,user)">Send request</button>
+                    <button class="ml-1 btn btn-outline-secondary btn-sm" type="button" *ngIf="userData.friends.length!=0&&user._id!==_id&&({_id:user._id,userData:userData}|alreadyFriend)==-1"
+                    (click)="sendFriend(user._id,user)">Send request</button>
+                    <p *ngIf="(userData.friends.length!=0&&{_id:user._id,userData:userData}|alreadyFriend)==0">(Already Friend)</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

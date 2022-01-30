@@ -74,10 +74,7 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
   }
   socketFunc() {
     this.socket.on('sendMessage').subscribe((data: any) => {
-      // console.log(data);
       let index = this.shareSer.sortedIndex(this.messages, data);
-      // let search = this.messages.findIndex(item => item.status == false);
-      // this.messages.splice(search, 1);
       if (index < 0) {
         this.messages.push(data);
       } else {
@@ -88,10 +85,27 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
         this.scrollToBottom();
       }, 500);
     })
+    this.socket.on('deleteMess').subscribe((data: any) => {
+      let index = this.messages.findIndex(item => item._id == data);
+      let indexRe = this.messages.findIndex(item => item.reply?._id == data);
+      if (indexRe !== -1) {
+        this.messages[indexRe].reply = {};
+      }
+      this.messages.splice(index, 1);
+    })
 
   }
   replyClick(value: any) {
     this.reply = value;
+  }
+  deleteClick(value: any) {
+    let index = this.messages.findIndex(item => item._id == value);
+    let indexRe = this.messages.findIndex(item => item.reply?._id == value);
+    if (indexRe !== -1) {
+      this.messages[indexRe].reply = {};
+    }
+    this.messages.splice(index, 1);
+    this.socket.emit('delete', { room: this.roomSer.currentRoom, data: value })
   }
   addEmoji(event: any) {
     this.text = `${this.text}${event.emoji.native}`
@@ -106,7 +120,6 @@ export class ChatMainComponent implements OnInit, OnChanges, AfterViewChecked {
     } else if (temp === 0) {
       return "50px";
     }
-    // if(this.reply!==null);
     return "100%";
   }
 

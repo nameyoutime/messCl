@@ -9,7 +9,7 @@ export class ShareService {
   public menuMoblie: boolean = true;
   public menuMoblieUpdated: EventEmitter<any> = new EventEmitter();
   public isMoblie: boolean = false;
-
+  public darkMode: boolean = true;
 
   constructor() {
 

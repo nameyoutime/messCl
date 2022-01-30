@@ -111,6 +111,7 @@ export class AuthService {
   getUser(uid: string): Observable<any> {
     return this.http.get(environment.endpoint + `user/uid/${uid}`);
   }
+
   async loginWithGoogle() {
     const dataUser: any = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     // console.log(dataUser.user.uid);
@@ -136,8 +137,7 @@ export class AuthService {
       // console.log(data);
       localStorage.setItem('uid', dataUser.user.uid);
       this.uid = dataUser.user.uid;
-      
-      
+
     })
 
     
@@ -158,7 +158,7 @@ export class AuthService {
     //   }
     // })
   }
-
+  
 
 
   async logout() {

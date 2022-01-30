@@ -1,10 +1,8 @@
-<div *ngIf="!doneLoading">
+<div *ngIf="!doneLoading" class="p-3">
     loading...
 </div>
-<div *ngIf="doneLoading">
-
+<div *ngIf="doneLoading" class="p-3">
     <form [formGroup]="frm" (ngSubmit)="onSubmit()">
-
         <div class="d-flex justify-content-center">
             <img id="img" *ngIf="currentImg" [src]="currentImg">
         </div>
@@ -20,10 +18,7 @@
                 formControlName="desc">
             <small class="form-text text-muted">Enter a group description.</small>
         </div>
-
-        <!-- <label class="form-label" for="customFile">Default file input example</label> -->
         <button #submit type="submit" style="visibility: hidden;position: absolute;">update</button>
-
     </form>
     <div class="form-group">
         <label>Image</label>
@@ -39,15 +34,11 @@
             </div>
             <div class="col-2 p-0">
                 <button (click)="clickAdd()" class="btn btn-outline-dark btn-sm h-100">add</button>
-
             </div>
-
         </div>
     </div>
-
     <div>
         <small class="form-text text-muted">current user in room.</small>
-
         <ul class="list-group" style="max-height: 20vh;overflow-y: scroll;">
             <li class="list-group-item list-group-item-action" *ngFor="let user of users;let i = index">
                 <div class="row no-gutters align-items-center">
@@ -61,18 +52,7 @@
                     </div>
                 </div>
             </li>
-            
-
         </ul>
-        <!-- <div *ngFor="let user of users;let i = index">
-            <div>
-                <p>
-                    {{user.displayName}}
-                </p>
-                <button *ngIf="authSer.user.uid!==user.uid" (click)="deleteUser(i,user)">x</button>
-                <p *ngIf="authSer.user.uid==user.uid">(you)</p>
-            </div>
-        </div> -->
     </div>
     <button (click)="submit.click()" class="mt-1 btn btn-success">update</button>
 </div>

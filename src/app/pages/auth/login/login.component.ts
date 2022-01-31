@@ -9,16 +9,13 @@ import { ShareService } from 'src/app/services/share.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authSer: AuthService, private router: Router,private shareSer:ShareService) { }
+  constructor(private authSer: AuthService, private router: Router, private shareSer: ShareService) { }
 
   ngOnInit(): void {
   }
   login() {
-    this.authSer.loginWithGoogle().then(()=>{
-      setTimeout(() => {
-        this.shareSer.openSnackBar("Login success!");
-        this.router.navigate(['./home']);
-      }, 1000);
+    this.authSer.loginWithGoogle().then(() => {
+      this.shareSer.openSnackBar("Login success!");
     });
     // console.log(result);
   }

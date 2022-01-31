@@ -19,7 +19,7 @@ export class AuthService {
   public changeUser: EventEmitter<any> = new EventEmitter();
   public updatedUser: EventEmitter<any> = new EventEmitter();
 
-  constructor(private router: Router,private afAuth: AngularFireAuth, private http: HttpClient, private socket: WebsocketService) {
+  constructor(private router: Router, private afAuth: AngularFireAuth, private http: HttpClient, private socket: WebsocketService) {
     this.checkUser();
   }
 
@@ -60,7 +60,7 @@ export class AuthService {
         // socket emmit join  with uid
         console.log("join with uid:", this.uid);
         this.socket.emit('user-join', this.uid);
-        
+
         this.getUser(this.uid).subscribe((data: any) => {
           this.user = data.data[0];
         })
@@ -113,35 +113,26 @@ export class AuthService {
   async loginWithGoogle() {
     const dataUser: any = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     // console.log(dataUser.user.uid);
-    
-    this.checkExists(dataUser.user.uid).pipe(
-      filter(data => data.count == 0),
-      mergeMap((data: any) => {
-        let temp = {
-          displayName: dataUser.user.displayName,
-          email: dataUser.user.email,
-          photoURL: dataUser.user.photoURL,
-          uid: dataUser.user.uid,
-          friends: [],
-          req: []
-        }
-        return this.addUser(temp);
-      }), catchError(error => {
-        console.log(error);
-        return error;
-        // handle the error accordingly.
-      })
-    ).subscribe(data => {
-      // console.log(data);
+    let data = await this.checkExists(dataUser.user.uid).toPromise();
+    if (data.count == 0) {
+      let temp = {
+        displayName: dataUser.user.displayName,
+        email: dataUser.user.email,
+        photoURL: dataUser.user.photoURL,
+        uid: dataUser.user.uid,
+        friends: [],
+        req: []
+      }
+      await this.addUser(temp).toPromise();
       localStorage.setItem('uid', dataUser.user.uid);
       this.uid = dataUser.user.uid;
-
-    })
-
-    
-
-    // this.checkExists(dataUser.user.uid).subscribe((data: any) => {
-    //   if (data.count == 0) {
+      await this.router.navigate(['/home']);
+    }else if(data.count!=0){
+      await this.router.navigate(['/home']);
+    }
+    // this.checkExists(dataUser.user.uid).pipe(
+    //   filter(data => data.count == 0),
+    //   mergeMap((data: any) => {
     //     let temp = {
     //       displayName: dataUser.user.displayName,
     //       email: dataUser.user.email,
@@ -150,19 +141,27 @@ export class AuthService {
     //       friends: [],
     //       req: []
     //     }
-    //     this.addUser(temp).subscribe(()=>{
-    //       console.log("added user to db");
-    //     })
-    //   }
+    //     return this.addUser(temp);
+    //   }), catchError(error => {
+    //     console.log(error);
+    //     return error;
+    //     // handle the error accordingly.
+    //   })
+    // ).subscribe(data => {
+    //   // console.log(data);
+    //   localStorage.setItem('uid', dataUser.user.uid);
+    //   this.uid = dataUser.user.uid;
+
     // })
+
   }
-  
+
 
 
   async logout() {
     await this.afAuth.signOut().then(() => {
       localStorage.removeItem('uid');
-      this.router.navigate(['./auth/login']);
+      this.router.navigate(['/auth/login']);
     });
   }
 }

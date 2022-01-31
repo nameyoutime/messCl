@@ -20,8 +20,8 @@
                             </div>
                         </div>
                     </div>
+                    <h1 *ngIf="data.friends.length>0" class="text-center mt-1">Friends</h1>
                     <div *ngFor="let item of data.friends" class="contacts">
-                        <h1 class="text-center mt-1">Friends</h1>
                         <div class="card p-1 hover-card m-1 justify-content-center "
                             [ngClass]="{'selected-card':item.room == selected}" style="cursor:pointer;">
                             <div class="row no-gutters align-items-center" routerLink="chat"
@@ -29,8 +29,9 @@
                                 <div class="col-xl-3 col-lg-6">
                                     <img class="rounded-circle w-100" src={{item.friend.photoURL}} alt="user">
                                 </div>
-                                <div class="col-xl-9 col-lg-6">
-                                    <p class="text-lg-left text-xl-left text-sm-center">{{item.friend.displayName}}</p>
+                                <div class="col-xl-9 col-lg-6 d-flex h-100">
+                                    <p class="ml-1 text-lg-left text-xl-left text-sm-center w-100" style="height: 10px;font-weight: 500;">{{item.friend.displayName}}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -48,8 +49,9 @@
                                         <img id="square" style="min-height: 70px;" src={{g.photoURL}} alt="user"
                                             class="img-fluid">
                                     </div>
-                                    <div class="col-xl-9 col-lg-6">
-                                        <p class="text-lg-left text-xl-left text-sm-center">{{g.name}}</p>
+                                    <div class="col-xl-9 col-lg-6 d-flex justify-content-center">
+
+                                            <p class="ml-1 text-lg-left text-xl-left text-sm-center" style="height: 10px;font-weight: 500;">{{g.name}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -101,8 +103,8 @@
                         </div>
                         <app-menu [isMoblie]="isMoblie"></app-menu>
                         <div class="mt-4">
+                            <h3 *ngIf="data.friends.length!==0" class="text-center mt-1">Friends</h3>
                             <div *ngFor="let item of data.friends">
-                                <h3 class="text-center mt-1">Friends</h3>
                                 <div class="card p-1 hover-card m-1 justify-content-center"
                                     style="cursor:pointer;height: 100px;"
                                     [ngClass]="{'selected-card':item.room == selected}">

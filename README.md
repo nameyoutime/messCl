@@ -2,7 +2,18 @@
 
 Hello this is my own personal project that clone messenger.
 This project used: angularJS, mongoDB, express, nodejs, socket.io
+In this project I don't focus too much on design login page but rather focus on functionality
 
+Project function:
+  Login<br/>
+  Find friends<br/>
+  Add friends<br/>
+  Chat realtime<br/>
+  Reply messages<br/>
+  Send images/file<br/>
+  Send emoji<br/>
+  Create group chat<br/>
+  Responsive for mobile use<br/>
 Login <br />
 ![login](https://user-images.githubusercontent.com/77221040/201475277-acd22cc4-7fe3-4fd6-bc36-6731be579612.PNG)
 
